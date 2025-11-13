@@ -19,11 +19,32 @@
     --transition: all 0.3s ease;
 }
 
+/* ===== ТЁМНАЯ ТЕМА ===== */
+body.dark-theme {
+    --bg-main: #2c2f33;
+    --bg-secondary: #23272a;
+    --bg-tertiary: #3a3e42;
+    --text-primary: #f5f5f5;
+    --text-secondary: #a0a0a0;
+    --border-color: #40444b;
+    --accent-color: #9b59b6; /* Мягкий фиолетовый для тёмной темы */
+    --shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+body.dark-theme .add-holiday-btn:hover,
+body.dark-theme .favorite-btn:hover,
+body.dark-theme .btn-save:hover,
+body.dark-theme .scroll-to-top:hover {
+    background-color: #8e44ad; /* Более тёмный фиолетовый при наведении */
+}
+
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     background-color: var(--bg-secondary);
     color: var(--text-primary);
     line-height: 1.6;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* ===== HEADER ===== */
@@ -34,6 +55,7 @@ body {
     top: 0;
     z-index: 100;
     box-shadow: var(--shadow);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .header-container {
@@ -42,8 +64,9 @@ body {
     padding: 1rem 2rem;
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    gap: 2rem;
+    align-items: center;    
+    gap: 1.5rem;
+    transition: padding 0.3s ease;
 }
 
 .logo {
@@ -56,6 +79,18 @@ body {
     color: var(--accent-color);
     font-weight: 700;
     letter-spacing: 0.5px;
+    transition: font-size 0.3s ease;
+}
+
+/* ===== ЧАСЫ ПОЛЬЗОВАТЕЛЯ ===== */
+.user-time {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--accent-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: font-size 0.3s ease;
 }
 
 .language-switcher {
@@ -85,6 +120,36 @@ body {
     background-color: var(--accent-color);
     color: white;
     border-color: var(--accent-color);
+}
+
+/* ===== ПЕРЕКЛЮЧАТЕЛЬ ТЕМЫ ===== */
+.theme-switcher {
+    margin-left: 1rem;
+}
+
+.theme-toggle-btn {
+    background-color: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+}
+
+.theme-toggle-btn:hover {
+    transform: scale(1.1) rotate(15deg);
+    border-color: var(--accent-color);
+}
+
+/* ===== СЖАТАЯ ШАПКА ===== */
+.header-scrolled .header-container {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
 }
 
 /* ===== MAIN CONTAINER ===== */
@@ -186,6 +251,19 @@ body {
 .scroll-to-top:active {
     transform: translateY(-1px);
 }
+
+/* ===== АНИМАЦИЯ ПОЯВЛЕНИЯ КАРТОЧЕК ===== */
+@keyframes card-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 
 /* ===== АНИМАЦИИ ===== */
 .text-transition {
@@ -299,6 +377,9 @@ body {
     display: flex;
     flex-direction: column;
     opacity: 1;
+    /* Начальное состояние для анимации */
+    opacity: 0;
+    animation: card-fade-in 0.5s ease-out forwards;
 }
 
 .holiday-card:hover {
@@ -385,6 +466,7 @@ body {
     max-height: 90vh;
     overflow-y: auto;
     animation: slideUp 0.3s ease;
+    transition: background-color 0.3s ease;
 }
 
 @keyframes slideUp {
@@ -532,6 +614,16 @@ body {
         padding: 1rem;
     }
 
+    .header-scrolled .header-container {
+        padding-top: 0.75rem;
+        padding-bottom: 0.75rem;
+    }
+
+    .header-scrolled .logo h1,
+    .header-scrolled .user-time {
+        font-size: 1.3rem;
+    }
+
     .logo h1 {
         font-size: 1.5rem;
     }
@@ -629,6 +721,14 @@ body {
         grid-template-columns: 1fr;
     }
 
+    .theme-switcher {
+        margin-left: 0;
+    }
+
+    .user-time {
+        font-size: 1.5rem;
+    }
+
     .pinned-card {
         padding: 0.5rem;
     }
@@ -669,6 +769,12 @@ body {
     outline: none;
     border-color: var(--accent-color);
     box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
+}
+
+/* Улучшение полей ввода в тёмной теме */
+body.dark-theme .form-input,
+body.dark-theme .form-textarea {
+    background-color: var(--bg-secondary); /* Более тёмный фон для полей */
 }
 
 .form-textarea {

@@ -13,12 +13,20 @@
             <div class="logo">
                 <h1>Find Holiday</h1>
             </div>
+            <!-- Часы пользователя -->
+            <div id="userTime" class="user-time">
+                <!-- Время будет вставлено здесь -->
+            </div>
             <div class="language-switcher">
                 <button class="lang-btn" data-lang="ru">РУ</button>
                 <button class="lang-btn" data-lang="en">EN</button>
                 <button class="lang-btn" data-lang="de">DE</button>
                 <button class="lang-btn" data-lang="fr">FR</button>
                 <button class="lang-btn" data-lang="uk">UK</button>
+            </div>
+            <!-- Кнопка переключения темы -->
+            <div class="theme-switcher">
+                <button id="themeToggleBtn" class="theme-toggle-btn">☀️</button>
             </div>
         </div>
     </header>
@@ -191,7 +199,10 @@
     <!-- Кнопка "Наверх" -->
     <button id="scrollToTopBtn" class="scroll-to-top" title="Наверх">⬆️</button>
 
+    <!-- Контейнер для всплывающих уведомлений -->
+    <div id="toastContainer" class="toast-container"></div>
+
     <script src="translations_extended.js"></script>
-    <script src="app_extended.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>

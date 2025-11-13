@@ -318,7 +318,7 @@ const holidaysData = [
             uk: 'Всесвітній день культурної різноманітності'
         },
         date: '2026-05-21',
-        emoji: '',
+        emoji: '🌐',
         description: {
             ru: 'День, посвящённый культурному разнообразию и обмену культурными ценностями между народами.',
             en: 'A day celebrating cultural diversity and the exchange of cultural values between peoples.',
@@ -1287,57 +1287,3 @@ const holidaysData = [
     },
 
 ];
-
-// Функция для добавления пользовательского праздника
-function addCustomHoliday(name, date, description = '') {
-    const customHoliday = {
-        // Исправлено: ID должен быть уникальным и больше максимального существующего
-        id: holidaysData.length > 0 
-            ? Math.max(...holidaysData.map(h => h.id)) + 1 
-            : 1,
-        title: {
-            ru: name,
-            en: name,
-            de: name,
-            fr: name,
-            uk: name
-        },
-        date: date,
-        emoji: '🎉',
-        description: {
-            ru: description || 'Мой собственный праздник',
-            en: description || 'My custom holiday',
-            de: description || 'Mein benutzerdefinierter Feiertag',
-            fr: description || 'Ma fête personnalisée',
-            uk: description || 'Мій власний святок'
-        },
-        isCustom: true
-    };
-    
-    holidaysData.push(customHoliday);
-    localStorage.setItem('findholiday_custom_holidays', JSON.stringify(
-        holidaysData.filter(h => h.isCustom)
-    ));
-    
-    return customHoliday;
-}
-
-// Загрузить сохранённые пользовательские праздники
-function loadCustomHolidays() {
-    const customHolidaysStr = localStorage.getItem('findholiday_custom_holidays');
-    if (customHolidaysStr) {
-        try {
-            const customHolidays = JSON.parse(customHolidaysStr);
-            customHolidays.forEach(holiday => {
-                if (!holidaysData.find(h => h.id === holiday.id)) {
-                    holidaysData.push(holiday);
-                }
-            });
-        } catch (e) {
-            console.error('Ошибка при загрузке пользовательских праздников:', e);
-        }
-    }
-}
-
-// Загрузить пользовательские праздники при загрузке страницы
-document.addEventListener('DOMContentLoaded', loadCustomHolidays);
