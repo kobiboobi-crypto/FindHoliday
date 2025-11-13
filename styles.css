@@ -39,17 +39,23 @@ body {
 .header-container {
     max-width: var(--max-width);
     margin: 0 auto;
-    padding: 1.5rem 2rem;
+    padding: 1rem 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 2rem;
 }
 
+.logo {
+    margin-right: auto;
+    padding-left: 1rem;
+}
+
 .logo h1 {
-    font-size: 1.8rem;
-    color: var(--text-primary);
+    font-size: 2.2rem;
+    color: var(--accent-color);
     font-weight: 700;
+    letter-spacing: 0.5px;
 }
 
 .language-switcher {
@@ -143,6 +149,53 @@ body {
     box-shadow: var(--shadow-md);
 }
 
+/* ===== КНОПКА "НАВЕРХ" ===== */
+.scroll-to-top {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 50px;
+    height: 50px;
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: var(--shadow-md);
+    transition: var(--transition);
+    opacity: 0;
+    visibility: hidden;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.scroll-to-top.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.scroll-to-top:hover {
+    background-color: #ff5252;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+}
+
+.scroll-to-top:active {
+    transform: translateY(-1px);
+}
+
+/* ===== АНИМАЦИИ ===== */
+.text-transition {
+    transition: opacity 0.25s ease-in-out;
+}
+
+.text-fade {
+    opacity: 0;
+}
+
 /* ===== СЕКЦИЯ ИЗБРАННОГО ===== */
 .pinned-section {
     margin-bottom: 2.5rem;
@@ -157,6 +210,7 @@ body {
     color: var(--text-primary);
     margin-bottom: 1rem;
     font-weight: 600;
+    transition: opacity 0.25s ease-in-out;
 }
 
 .pinned-container {
@@ -175,6 +229,7 @@ body {
     cursor: pointer;
     transition: var(--transition);
     position: relative;
+    opacity: 1;
 }
 
 .pinned-card:hover {
@@ -187,11 +242,13 @@ body {
     font-weight: 600;
     color: var(--text-primary);
     margin-bottom: 0.5rem;
+    transition: opacity 0.25s ease-in-out;
 }
 
 .pinned-card-date {
     font-size: 0.8rem;
     color: var(--text-secondary);
+    transition: opacity 0.25s ease-in-out;
 }
 
 .pinned-remove-btn {
@@ -241,6 +298,7 @@ body {
     transition: var(--transition);
     display: flex;
     flex-direction: column;
+    opacity: 1;
 }
 
 .holiday-card:hover {
@@ -259,12 +317,14 @@ body {
     font-weight: 700;
     color: var(--text-primary);
     margin-bottom: 0.5rem;
+    transition: opacity 0.25s ease-in-out;
 }
 
 .holiday-card-date {
     font-size: 0.95rem;
     color: var(--text-secondary);
     margin-bottom: 0.75rem;
+    transition: opacity 0.25s ease-in-out;
 }
 
 .holiday-card-description {
@@ -272,12 +332,14 @@ body {
     color: var(--text-secondary);
     line-height: 1.5;
     margin-bottom: 1rem;
+    transition: opacity 0.25s ease-in-out;
 }
 
 .holiday-card-countdown {
     font-size: 0.9rem;
     color: var(--accent-color);
     font-weight: 600;
+    transition: opacity 0.25s ease-in-out;
 }
 
 .holiday-card.hidden {

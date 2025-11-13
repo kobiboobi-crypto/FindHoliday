@@ -137,7 +137,7 @@ const holidaysData = [
     {
         id: 2,
         title: {
-            ru: 'День Святого Архангела Михаила',
+            ru: 'Рождество (Православное)',
             en: 'Orthodox Christmas',
             de: 'Orthodoxes Weihnachten',
             fr: 'Noël orthodoxe',

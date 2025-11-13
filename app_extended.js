@@ -22,6 +22,7 @@ const addHolidayClose = document.getElementById('addHolidayClose');
 const cancelHolidayBtn = document.getElementById('cancelHolidayBtn');
 const emojiBtns = document.querySelectorAll('.emoji-btn');
 const selectedEmojiInput = document.getElementById('selectedEmoji');
+const scrollToTopBtn = document.getElementById('scrollToTopBtn');
 
 // ===== ИНИЦИАЛИЗАЦИЯ =====
 document.addEventListener('DOMContentLoaded', function() {
@@ -102,6 +103,22 @@ function setupEventListeners() {
             }
         }
     });
+    
+    // Кнопка "Наверх"
+    window.addEventListener('scroll', function() {
+        if (window.pageYOffset > 300) {
+            scrollToTopBtn.classList.add('visible');
+        } else {
+            scrollToTopBtn.classList.remove('visible');
+        }
+    });
+    
+    scrollToTopBtn.addEventListener('click', function() {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
 }
 
 // ===== ФУНКЦИЯ ПЕРЕВОДОВ =====
@@ -109,15 +126,41 @@ function setLanguage(lang) {
     currentLanguage = lang;
     localStorage.setItem('findholiday_language', lang);
     setActiveLanguage(lang);
-    translatePage();
-    updateButtonText();
-    updateFormPlaceholders();
     
-    // Очистить поиск при смене языка
-    searchInput.value = '';
+    // Плавно скрыть весь текст
+    const textElements = document.querySelectorAll(
+        '.holiday-card-title, .holiday-card-date, .holiday-card-description, .holiday-card-countdown, ' +
+        '.pinned-card-title, .pinned-card-date, .pinned-title, [data-translate]'
+    );
     
-    renderHolidays();
-    updatePinnedDisplay();
+    textElements.forEach(el => {
+        el.style.opacity = '0';
+    });
+    
+    // Подождать завершения анимации, затем обновить контент
+    setTimeout(() => {
+        translatePage();
+        updateButtonText();
+        updateFormPlaceholders();
+        
+        // Очистить поиск при смене языка
+        searchInput.value = '';
+        
+        renderHolidays();
+        updatePinnedDisplay();
+        
+        // Плавно показать обновленный текст
+        setTimeout(() => {
+            const newTextElements = document.querySelectorAll(
+                '.holiday-card-title, .holiday-card-date, .holiday-card-description, .holiday-card-countdown, ' +
+                '.pinned-card-title, .pinned-card-date, .pinned-title, [data-translate]'
+            );
+            
+            newTextElements.forEach(el => {
+                el.style.opacity = '1';
+            });
+        }, 50);
+    }, 250);
 }
 
 function updateButtonText() {
