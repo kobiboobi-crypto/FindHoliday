@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FindHoliday - Найди Праздник</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header с навигацией и переключателем языка -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <h1>🎉 FindHoliday</h1>
+            </div>
+            <div class="language-switcher">
+                <button class="lang-btn" data-lang="ru">РУ</button>
+                <button class="lang-btn" data-lang="en">EN</button>
+                <button class="lang-btn" data-lang="de">DE</button>
+                <button class="lang-btn" data-lang="fr">FR</button>
+                <button class="lang-btn" data-lang="uk">UK</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Основной контент (центрированный) -->
+    <main class="main-container">
+        <div class="content-wrapper">
+            <!-- Поисковая панель -->
+            <div class="search-section">
+                <div class="search-container">
+                    <input 
+                        type="text" 
+                        id="searchInput" 
+                        class="search-input" 
+                        placeholder="Поиск праздников..."
+                        data-placeholder-ru="Поиск праздников..."
+                        data-placeholder-en="Search holidays..."
+                        data-placeholder-de="Feiertage durchsuchen..."
+                        data-placeholder-fr="Rechercher des vacances..."
+                        data-placeholder-uk="Пошук свят..."
+                    >
+                    <button id="addHolidayBtn" class="add-holiday-btn" data-translate="add-custom" title="Добавить свой праздник">➕ Добавить праздник</button>
+                </div>
+            </div>
+
+            <!-- Секция закреплённых праздников (Избранное) -->
+            <div class="pinned-section">
+                <h2 class="pinned-title" data-translate="favorites">Избранные</h2>
+                <div id="pinnedContainer" class="pinned-container">
+                    <!-- Закреплённые карточки будут добавлены здесь -->
+                </div>
+            </div>
+
+            <!-- Основной список праздников -->
+            <div class="holidays-section">
+                <div id="holidaysList" class="holidays-list">
+                    <!-- Карточки праздников будут добавлены здесь -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Модальное окно для деталей праздника -->
+    <div id="holidayModal" class="modal hidden">
+        <div class="modal-overlay" id="modalOverlay"></div>
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">&times;</button>
+            
+            <div class="modal-header">
+                <h2 id="modalTitle" class="modal-title">Название праздника</h2>
+                <p id="modalDate" class="modal-date">Дата</p>
+            </div>
+
+            <div class="modal-body">
+                <p id="modalDescription" class="modal-description">
+                    Описание праздника будет здесь
+                </p>
+
+                <div class="countdown-section">
+                    <h3 class="countdown-title" data-translate="countdown">Обратный отсчёт</h3>
+                    <div class="countdown-display">
+                        <div class="countdown-item">
+                            <span id="countdownDays" class="countdown-value">0</span>
+                            <span class="countdown-label" data-translate="days">дней</span>
+                        </div>
+                        <div class="countdown-item">
+                            <span id="countdownHours" class="countdown-value">0</span>
+                            <span class="countdown-label" data-translate="hours">часов</span>
+                        </div>
+                        <div class="countdown-item">
+                            <span id="countdownMinutes" class="countdown-value">0</span>
+                            <span class="countdown-label" data-translate="minutes">минут</span>
+                        </div>
+                        <div class="countdown-item">
+                            <span id="countdownSeconds" class="countdown-value">0</span>
+                            <span class="countdown-label" data-translate="seconds">секунд</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button id="favoriteBtn" class="favorite-btn">
+                    <span class="heart-icon">♡</span>
+                    <span id="favoriteText" data-translate="add-favorite">Добавить в избранное</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно для добавления своего праздника -->
+    <div id="addHolidayModal" class="modal hidden">
+        <div class="modal-overlay" id="addHolidayOverlay"></div>
+        <div class="modal-content">
+            <button class="modal-close" id="addHolidayClose">&times;</button>
+            
+            <div class="modal-header">
+                <h2 class="modal-title" data-translate="add-custom">Добавить свой праздник</h2>
+            </div>
+
+            <div class="modal-body">
+                <form id="addHolidayForm" class="custom-holiday-form">
+                    <div class="form-group">
+                        <label for="holidayName" data-translate="custom-name">Название праздника</label>
+                        <input 
+                            type="text" 
+                            id="holidayName" 
+                            class="form-input"
+                            data-placeholder-ru="Введите название"
+                            data-placeholder-en="Enter name"
+                            data-placeholder-de="Namen eingeben"
+                            data-placeholder-fr="Entrez le nom"
+                            data-placeholder-uk="Введіть назву"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="holidayDate" data-translate="custom-date">Выберите дату</label>
+                        <input 
+                            type="date" 
+                            id="holidayDate" 
+                            class="form-input"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="holidayDescription" data-translate="custom-description">Описание (опционально)</label>
+                        <textarea 
+                            id="holidayDescription" 
+                            class="form-textarea"
+                            data-placeholder-ru="Опишите ваш праздник"
+                            data-placeholder-en="Describe your holiday"
+                            data-placeholder-de="Beschreiben Sie Ihren Feiertag"
+                            data-placeholder-fr="Décrivez votre fête"
+                            data-placeholder-uk="Опишіть ваше святкування"
+                            rows="3"
+                        ></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Выберите эмодзи</label>
+                        <div class="emoji-selector">
+                            <button type="button" class="emoji-btn" data-emoji="🎉">🎉</button>
+                            <button type="button" class="emoji-btn" data-emoji="🎊">🎊</button>
+                            <button type="button" class="emoji-btn" data-emoji="🎈">🎈</button>
+                            <button type="button" class="emoji-btn" data-emoji="🎁">🎁</button>
+                            <button type="button" class="emoji-btn" data-emoji="🎂">🎂</button>
+                            <button type="button" class="emoji-btn" data-emoji="🎭">🎭</button>
+                            <button type="button" class="emoji-btn" data-emoji="🎪">🎪</button>
+                            <button type="button" class="emoji-btn" data-emoji="🎨">🎨</button>
+                            <button type="button" class="emoji-btn" data-emoji="💝">💝</button>
+                            <button type="button" class="emoji-btn" data-emoji="⭐">⭐</button>
+                            <button type="button" class="emoji-btn" data-emoji="🌟">🌟</button>
+                            <button type="button" class="emoji-btn" data-emoji="✨">✨</button>
+                        </div>
+                        <input type="hidden" id="selectedEmoji" value="🎉">
+                    </div>
+
+                    <div class="form-buttons">
+                        <button type="submit" class="btn-save" data-translate="save">Сохранить</button>
+                        <button type="button" class="btn-cancel" id="cancelHolidayBtn" data-translate="cancel">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="translations_extended.js"></script>
+    <script src="app_extended.js"></script>
+</body>
+</html>
