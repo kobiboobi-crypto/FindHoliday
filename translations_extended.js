@@ -214,7 +214,7 @@ const holidaysData = [
     },
 
     {
-        id: 7,
+        id: 6,
         title: {
             ru: 'Всемирный день правильного обращения с горным беспозвоночным видом',
             en: 'World NGO Day',
@@ -233,7 +233,7 @@ const holidaysData = [
         }
     },
     {
-        id: 8,
+        id: 7,
         title: {
             ru: 'Хиджра (Исламский Новый год)',
             en: 'Islamic New Year (Hijri)',
@@ -252,7 +252,7 @@ const holidaysData = [
         }
     },
     {
-        id: 9,
+        id: 8,
         title: {
             ru: 'День Матери (США/Канада)',
             en: 'Mother\'s Day',
@@ -271,7 +271,7 @@ const holidaysData = [
         }
     },
     {
-        id: 10,
+        id: 9,
         title: {
             ru: 'Праздник Светлого Воскресения Христова',
             en: 'Easter',
@@ -290,7 +290,7 @@ const holidaysData = [
         }
     },
     {
-        id: 11,
+        id: 10,
         title: {
             ru: 'Белтэйн (Кельтский Новый год)',
             en: 'Beltane',
@@ -309,7 +309,7 @@ const holidaysData = [
         }
     },
     {
-        id: 12,
+        id: 11,
         title: {
             ru: 'День корифея',
             en: 'World Day for Cultural Diversity',
@@ -328,7 +328,7 @@ const holidaysData = [
         }
     },
     {
-        id: 13,
+        id: 12,
         title: {
             ru: 'Китайский фестиваль лодок-драконов',
             en: 'Dragon Boat Festival',
@@ -347,7 +347,7 @@ const holidaysData = [
         }
     },
     {
-        id: 14,
+        id: 13,
         title: {
             ru: 'День Бильбо (День рождения Толкина)',
             en: 'Tolkien\'s Birthday',
@@ -366,7 +366,7 @@ const holidaysData = [
         }
     },
     {
-        id: 15,
+        id: 14,
         title: {
             ru: 'День Международного Полёта',
             en: 'International Flight Day',
@@ -385,7 +385,7 @@ const holidaysData = [
         }
     },
     {
-        id: 16,
+        id: 15,
         title: {
             ru: 'День Святого Люсии',
             en: 'Saint Lucy\'s Day',
@@ -404,7 +404,7 @@ const holidaysData = [
         }
     },
     {
-        id: 17,
+        id: 16,
         title: {
             ru: 'День Независимости Греции',
             en: 'Greek Independence Day',
@@ -423,7 +423,7 @@ const holidaysData = [
         }
     },
     {
-        id: 18,
+        id: 17,
         title: {
             ru: 'Дивали (Фестиваль Огней)',
             en: 'Diwali (Festival of Lights)',
@@ -442,7 +442,7 @@ const holidaysData = [
         }
     },
     {
-        id: 19,
+        id: 18,
         title: {
             ru: 'Колумбиада (День Колумба)',
             en: 'Columbus Day',
@@ -461,7 +461,7 @@ const holidaysData = [
         }
     },
     {
-        id: 20,
+        id: 19,
         title: {
             ru: 'Рош-ха-Шана (Еврейский Новый год)',
             en: 'Rosh Hashanah',
@@ -480,7 +480,7 @@ const holidaysData = [
         }
     },
     {
-        id: 21,
+        id: 20,
         title: {
             ru: 'День Солнца',
             en: 'International Day of the Sun',
@@ -499,7 +499,7 @@ const holidaysData = [
         }
     },
     {
-        id: 22,
+        id: 21,
         title: {
             ru: 'Международный женский день',
             en: 'International Women\'s Day',
@@ -518,7 +518,7 @@ const holidaysData = [
         }
     },
     {
-        id: 23,
+        id: 22,
         title: {
             ru: 'День Святого Патрика',
             en: 'St. Patrick\'s Day',
@@ -537,7 +537,7 @@ const holidaysData = [
         }
     },
     {
-        id: 24,
+        id: 23,
         title: {
             ru: 'День поэзии',
             en: 'Poetry Day',
@@ -558,7 +558,7 @@ const holidaysData = [
 
     // АПРЕЛЬ
     {
-        id: 11,
+        id: 24,
         title: {
             ru: 'Пасха',
             en: 'Easter',
@@ -577,7 +577,7 @@ const holidaysData = [
         }
     },
     {
-        id: 12,
+        id: 25,
         title: {
             ru: 'День рождения Земли',
             en: 'Earth Day',
@@ -596,7 +596,7 @@ const holidaysData = [
         }
     },
     {
-        id: 13,
+        id: 26,
         title: {
             ru: 'День книги',
             en: 'Book Day',
@@ -617,7 +617,7 @@ const holidaysData = [
 
     // МАЙ
     {
-        id: 14,
+        id: 27,
         title: {
             ru: 'День праздника труда',
             en: 'Labour Day',
@@ -637,7 +637,7 @@ const holidaysData = [
     },
 
     {
-        id: 16,
+        id: 28,
         title: {
             ru: 'День матери',
             en: 'Mother\'s Day',
@@ -659,7 +659,7 @@ const holidaysData = [
     // ИЮНЬ
 
     {
-        id: 18,
+        id: 29,
         title: {
             ru: 'День отца',
             en: 'Father\'s Day',
@@ -678,7 +678,7 @@ const holidaysData = [
         }
     },
     {
-        id: 19,
+        id: 30,
         title: {
             ru: 'День летнего солнцестояния',
             en: 'Summer Solstice',
@@ -699,7 +699,7 @@ const holidaysData = [
 
     // ИЮЛЬ
     {
-        id: 20,
+        id: 31,
         title: {
             ru: 'День Независимости США',
             en: 'Independence Day',
@@ -718,7 +718,7 @@ const holidaysData = [
         }
     },
     {
-        id: 21,
+        id: 32,
         title: {
             ru: 'День шоколада',
             en: 'Chocolate Day',
@@ -744,7 +744,7 @@ const holidaysData = [
     // СЕНТЯБРЬ
 
     {
-        id: 25,
+        id: 33,
         title: {
             ru: 'Осеннее равноденствие',
             en: 'Autumn Equinox',
@@ -766,7 +766,7 @@ const holidaysData = [
     // ОКТЯБРЬ
 
     {
-        id: 27,
+        id: 34,
         title: {
             ru: 'Хеллоуин',
             en: 'Halloween',
@@ -785,7 +785,7 @@ const holidaysData = [
         }
     },
     {
-        id: 28,
+        id: 35,
         title: {
             ru: 'День памяти умерших',
             en: 'All Souls Day',
@@ -806,7 +806,7 @@ const holidaysData = [
 
     // НОЯБРЬ
     {
-        id: 29,
+        id: 36,
         title: {
             ru: 'День благодарения',
             en: 'Thanksgiving',
@@ -827,7 +827,7 @@ const holidaysData = [
 
     // ДЕКАБРЬ
     {
-        id: 30,
+        id: 37,
         title: {
             ru: 'День художника',
             en: 'Artist\'s Day',
@@ -846,7 +846,7 @@ const holidaysData = [
         }
     },
     {
-        id: 31,
+        id: 38,
         title: {
             ru: 'Рождество Христово',
             en: 'Christmas',
@@ -865,7 +865,7 @@ const holidaysData = [
         }
     },
     {
-        id: 32,
+        id: 39,
         title: {
             ru: 'Новогодняя ночь',
             en: 'New Year\'s Eve',
@@ -886,7 +886,7 @@ const holidaysData = [
 
     // ЕЩЁ ПРАЗДНИКИ
     {
-        id: 33,
+        id: 40,
         title: {
             ru: 'Пурим',
             en: 'Purim',
@@ -905,7 +905,7 @@ const holidaysData = [
         }
     },
     {
-        id: 34,
+        id: 41,
         title: {
             ru: 'Пасха (Песах)',
             en: 'Passover',
@@ -924,7 +924,7 @@ const holidaysData = [
         }
     },
     {
-        id: 35,
+        id: 42,
         title: {
             ru: 'Шавуот',
             en: 'Shavuot',
@@ -943,7 +943,7 @@ const holidaysData = [
         }
     },
     {
-        id: 36,
+        id: 43,
         title: {
             ru: 'День иммигранта',
             en: 'Immigrant Day',
@@ -962,7 +962,7 @@ const holidaysData = [
         }
     },
     {
-        id: 37,
+        id: 44,
         title: {
             ru: 'Виктория День',
             en: 'Victoria Day',
@@ -981,7 +981,7 @@ const holidaysData = [
         }
     },
     {
-        id: 38,
+        id: 45,
         title: {
             ru: 'День благодарения (Канада)',
             en: 'Thanksgiving (Canada)',
@@ -1000,7 +1000,7 @@ const holidaysData = [
         }
     },
     {
-        id: 39,
+        id: 46,
         title: {
             ru: 'Йом Кипур',
             en: 'Yom Kippur',
@@ -1019,7 +1019,7 @@ const holidaysData = [
         }
     },
     {
-        id: 40,
+        id: 47,
         title: {
             ru: 'Сукко́т',
             en: 'Sukkot',
@@ -1038,7 +1038,7 @@ const holidaysData = [
         }
     },
     {
-        id: 41,
+        id: 48,
         title: {
             ru: 'Ночь Ляйлат аль-Кадр',
             en: 'Laylat al-Qadr',
@@ -1057,7 +1057,7 @@ const holidaysData = [
         }
     },
     {
-        id: 42,
+        id: 49,
         title: {
             ru: 'Ид аль-Фитр',
             en: 'Eid al-Fitr',
@@ -1076,7 +1076,7 @@ const holidaysData = [
         }
     },
     {
-        id: 43,
+        id: 50,
         title: {
             ru: 'Ид аль-Адха',
             en: 'Eid al-Adha',
@@ -1095,7 +1095,7 @@ const holidaysData = [
         }
     },
     {
-        id: 44,
+        id: 51,
         title: {
             ru: 'Новый год по китайскому календарю - Год дракона',
             en: 'Year of the Dragon',
@@ -1114,7 +1114,7 @@ const holidaysData = [
         }
     },
     {
-        id: 45,
+        id: 52,
         title: {
             ru: 'День св. Людмилы',
             en: 'Saint Ludmila\'s Day',
@@ -1133,7 +1133,7 @@ const holidaysData = [
         }
     },
     {
-        id: 46,
+        id: 53,
         title: {
             ru: 'Лунный новый год',
             en: 'Lunar New Year',
@@ -1153,7 +1153,7 @@ const holidaysData = [
     },
 
     {
-        id: 48,
+        id: 54,
         title: {
             ru: 'День кино',
             en: 'Cinema Day',
@@ -1172,26 +1172,7 @@ const holidaysData = [
         }
     },
     {
-        id: 49,
-        title: {
-            ru: 'День музыки',
-            en: 'Music Day',
-            de: 'Musiktag',
-            fr: 'Journée de la Musique',
-            uk: 'День музики'
-        },
-        date: '2026-10-01',
-        emoji: '🎵',
-        description: {
-            ru: 'День, посвящённый музыке и музыкальному искусству. Люди слушают музыку, поют и посещают концерты.',
-            en: 'Music Day, celebrating music and musical arts.',
-            de: 'Der Musiktag, ein Tag der Musik.',
-            fr: 'La Journée de la Musique, célébrant la musique.',
-            uk: 'День, присвячений музиці та музичному мистецтву.'
-        }
-    },
-    {
-        id: 50,
+        id: 56,
         title: {
             ru: 'Международный день океана',
             en: 'World Oceans Day',
@@ -1210,7 +1191,7 @@ const holidaysData = [
         }
     },
     {
-        id: 51,
+        id: 57,
         title: {
             ru: 'День окружающей среды',
             en: 'Environmental Day',
@@ -1229,7 +1210,7 @@ const holidaysData = [
         }
     },
     {
-        id: 52,
+        id: 58,
         title: {
             ru: 'Международный день без автомобиля',
             en: 'International Day Without a Car',
@@ -1248,7 +1229,7 @@ const holidaysData = [
         }
     },
     {
-        id: 53,
+        id: 59,
         title: {
             ru: 'День животных',
             en: 'World Animal Day',
@@ -1267,7 +1248,7 @@ const holidaysData = [
         }
     },
     {
-        id: 54,
+        id: 60,
         title: {
             ru: 'День волонтёра',
             en: 'International Volunteer Day',
@@ -1286,26 +1267,7 @@ const holidaysData = [
         }
     },
     {
-        id: 55,
-        title: {
-            ru: 'День гордости ЛГБТ',
-            en: 'Pride Month',
-            de: 'Pride Month',
-            fr: 'Mois des fierté',
-            uk: 'Місяць гордості'
-        },
-        date: '2026-06-28',
-        emoji: '🌈',
-        description: {
-            en: 'Celebrating the LGBTQ+ community and their rights.',
-            ru: 'День, посвящённый ЛГБТ сообществу и их правам.',
-            de: 'Feier der LGBTQ+-Gemeinschaft.',
-            fr: 'Célébration de la communauté LGBTQ+.',
-            uk: 'День святкування ЛГБТ спільноти та їх прав.'
-        }
-    },
-    {
-        id: 56,
+        id: 61,
         title: {
             ru: 'День счастья',
             en: 'International Day of Happiness',
@@ -1323,32 +1285,16 @@ const holidaysData = [
             uk: 'День для благополуччя та щастя всіх.'
         }
     },
-    {
-        id: 57,
-        title: {
-            ru: 'День в поддержку жертв пыток',
-            en: 'International Day for Victims of Torture',
-            de: 'Internationaler Tag der Unterstützung für Folteropfer',
-            fr: 'Journée internationale en soutien des victimes de la torture',
-            uk: 'Міжнародний день на підтримку жертв катування'
-        },
-        date: '2026-06-26',
-        emoji: '✊',
-        description: {
-            en: 'A day supporting human rights and dignity.',
-            ru: 'День, поддерживающий права человека и достоинство.',
-            de: 'Ein Tag zur Unterstützung der Menschenrechte.',
-            fr: 'Une journée pour les droits de l\'homme.',
-            uk: 'День на підтримку прав людини та гідності.'
-        }
-    },
 
 ];
 
 // Функция для добавления пользовательского праздника
 function addCustomHoliday(name, date, description = '') {
     const customHoliday = {
-        id: Math.max(...holidaysData.map(h => h.id), 0) + 1,
+        // Исправлено: ID должен быть уникальным и больше максимального существующего
+        id: holidaysData.length > 0 
+            ? Math.max(...holidaysData.map(h => h.id)) + 1 
+            : 1,
         title: {
             ru: name,
             en: name,

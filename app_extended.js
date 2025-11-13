@@ -263,6 +263,7 @@ function createHolidayCard(holiday) {
     const card = document.createElement('div');
     card.className = 'holiday-card';
     card.setAttribute('data-id', holiday.id);
+    card.setAttribute('data-title', holiday.title[currentLanguage]);
     card.setAttribute('data-date', holiday.date);
     
     const title = holiday.title[currentLanguage];
