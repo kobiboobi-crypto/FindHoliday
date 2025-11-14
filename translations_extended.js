@@ -21,6 +21,14 @@ const translations = {
         'save': 'Сохранить',
         'cancel': 'Отмена',
         'my-holidays': 'Мои праздники',
+        'category-all': 'Все',
+        'category-today': 'Сегодня',
+        'category-upcoming': 'Скоро (7 дней)',
+        'category-official': 'Официальные',
+        'category-cultural': 'Культурные',
+        'category-religious': 'Религиозные',
+        'category-fun': 'Развлекательные',
+        'category-custom': 'Свои',
     },
     en: {
         'favorites': 'Favorites',
@@ -43,6 +51,14 @@ const translations = {
         'save': 'Save',
         'cancel': 'Cancel',
         'my-holidays': 'My holidays',
+        'category-all': 'All',
+        'category-today': 'Today',
+        'category-upcoming': 'Coming Soon (7 days)',
+        'category-official': 'Official',
+        'category-cultural': 'Cultural',
+        'category-religious': 'Religious',
+        'category-fun': 'Fun',
+        'category-custom': 'Custom',
     },
     de: {
         'favorites': 'Favoriten',
@@ -65,6 +81,14 @@ const translations = {
         'save': 'Speichern',
         'cancel': 'Abbrechen',
         'my-holidays': 'Meine Feiertage',
+        'category-all': 'Alle',
+        'category-today': 'Heute',
+        'category-upcoming': 'Bald (7 Tage)',
+        'category-official': 'Offiziell',
+        'category-cultural': 'Kulturell',
+        'category-religious': 'Religiös',
+        'category-fun': 'Unterhaltung',
+        'category-custom': 'Benutzerdefiniert',
     },
     fr: {
         'favorites': 'Favoris',
@@ -87,6 +111,14 @@ const translations = {
         'save': 'Enregistrer',
         'cancel': 'Annuler',
         'my-holidays': 'Mes vacances',
+        'category-all': 'Tous',
+        'category-today': 'Aujourd\'hui',
+        'category-upcoming': 'Bientôt (7 jours)',
+        'category-official': 'Officiel',
+        'category-cultural': 'Culturel',
+        'category-religious': 'Religieux',
+        'category-fun': 'Divertissement',
+        'category-custom': 'Personnalisé',
     },
     uk: {
         'favorites': 'Улюблені',
@@ -109,11 +141,19 @@ const translations = {
         'save': 'Зберегти',
         'cancel': 'Скасувати',
         'my-holidays': 'Мої святкування',
+        'category-all': 'Всі',
+        'category-today': 'Сьогодні',
+        'category-upcoming': 'Скоро (7 днів)',
+        'category-official': 'Офіційні',
+        'category-cultural': 'Культурні',
+        'category-religious': 'Релігійні',
+        'category-fun': 'Розважальні',
+        'category-custom': 'Свої',
     }
 };
 
 // Данные о праздниках (50 ПРАЗДНИКОВ!)
-const holidaysData = [
+let holidaysData = [
     // ЯНВАРЬ
     {
         id: 1,
@@ -126,6 +166,7 @@ const holidaysData = [
         },
         date: '2026-01-01',
         emoji: '🎆',
+        category: 'official',
         description: {
             ru: 'Самый волшебный и долгожданный праздник года! Новый год символизирует новое начало, надежду и обновление. В этот день люди по всему миру собираются с семьёй, встречают мы новый год с размахом, с шампанским и надеждой на лучшее будущее.',
             en: 'The most magical and anticipated holiday of the year! New Year symbolizes new beginnings, hope and renewal. On this day, people around the world gather with their families, celebrate with champagne and hope for a better future.',
@@ -145,6 +186,7 @@ const holidaysData = [
         },
         date: '2026-01-07',
         emoji: '✨',
+        category: 'religious',
         description: {
             ru: 'Рождество по православному календарю. День, когда рождается Иисус Христос согласно юлианскому календарю.',
             en: 'Orthodox Christmas, celebrated on January 7th according to the Julian calendar.',
@@ -166,6 +208,7 @@ const holidaysData = [
         },
         date: '2026-02-13',
         emoji: '📻',
+        category: 'cultural',
         description: {
             ru: 'День, посвящённый истории и значению радио в мировой коммуникации. Отмечается важность радиовещания для информирования и развлечения.',
             en: 'A day celebrating the history and importance of radio in global communication.',
@@ -185,6 +228,7 @@ const holidaysData = [
         },
         date: '2026-02-14',
         emoji: '💝',
+        category: 'fun',
         description: {
             ru: 'День любви и признания в чувствах. Это время, когда люди дарят своим близким цветы, подарки и открытки с добрыми пожеланиями.',
             en: 'A day of love and affection. People give flowers, gifts and cards to their loved ones.',
@@ -204,6 +248,7 @@ const holidaysData = [
         },
         date: '2026-02-14',
         emoji: '📚',
+        category: 'cultural',
         description: {
             ru: 'День, посвящённый любви к чтению и распространению книг. Люди дарят книги друг другу и пропагандируют грамотность.',
             en: 'A day dedicated to the love of reading and spreading books to others.',
@@ -224,6 +269,7 @@ const holidaysData = [
         },
         date: '2026-02-27',
         emoji: '🌍',
+        category: 'cultural',
         description: {
             ru: 'День признания важной роли неправительственных организаций в демократии и развитии международных отношений.',
             en: 'A day celebrating the role of non-governmental organizations in society.',
@@ -243,6 +289,7 @@ const holidaysData = [
         },
         date: '2026-07-07',
         emoji: '🕌',
+        category: 'religious',
         description: {
             ru: 'Начало нового года по мусульманскому лунному календарю (Хиджре). Это важное событие в исламской традиции.',
             en: 'The start of the new Islamic year according to the Hijri calendar.',
@@ -262,6 +309,7 @@ const holidaysData = [
         },
         date: '2026-05-10',
         emoji: '👩‍❤️‍👨',
+        category: 'official',
         description: {
             ru: 'День, посвящённый матерям и их неоценимому вкладу в воспитание и развитие детей.',
             en: 'A day dedicated to mothers and their invaluable contribution to raising children.',
@@ -281,6 +329,7 @@ const holidaysData = [
         },
         date: '2026-04-05',
         emoji: '🥚',
+        category: 'religious',
         description: {
             ru: 'Центральный праздник христианства, который отмечает воскресение Иисуса Христа. Люди украшают яйца, дарят подарки и семья собирается вместе.',
             en: 'The central holiday of Christianity celebrating the resurrection of Jesus Christ.',
@@ -300,6 +349,7 @@ const holidaysData = [
         },
         date: '2026-05-01',
         emoji: '🔥',
+        category: 'cultural',
         description: {
             ru: 'Древний кельтский праздник, знаменующий начало лета. Люди разжигали костры и совершали ритуалы для благополучия скота и урожая.',
             en: 'An ancient Celtic festival marking the beginning of summer with bonfires and rituals.',
@@ -319,6 +369,7 @@ const holidaysData = [
         },
         date: '2026-05-21',
         emoji: '🌐',
+        category: 'cultural',
         description: {
             ru: 'День, посвящённый культурному разнообразию и обмену культурными ценностями между народами.',
             en: 'A day celebrating cultural diversity and the exchange of cultural values between peoples.',
@@ -338,6 +389,7 @@ const holidaysData = [
         },
         date: '2026-06-09',
         emoji: '🐉',
+        category: 'cultural',
         description: {
             ru: 'Праздник, посвящённый памяти древнего поэта Цюй Юаня. Люди едят рисовые пирамидки (чжундзы) и катаются на лодках-драконах.',
             en: 'A festival honoring the ancient poet Qu Yuan with dragon boat races and traditional rice dumplings.',
@@ -357,6 +409,7 @@ const holidaysData = [
         },
         date: '2026-01-03',
         emoji: '⚔️',
+        category: 'fun',
         description: {
             ru: 'День рождения автора Джона Толкина (3 января 1892). Поклонники отмечают день создателя Средиземья.',
             en: 'The birthday of author J.R.R. Tolkien, celebrating the creator of Middle-earth.',
@@ -376,6 +429,7 @@ const holidaysData = [
         },
         date: '2026-12-17',
         emoji: '✈️',
+        category: 'cultural',
         description: {
             ru: 'День, посвящённый первому управляемому полёту братьев Райт (1903). Праздник авиации и человеческих достижений.',
             en: 'Celebrating the first powered flight by the Wright Brothers in 1903.',
@@ -395,6 +449,7 @@ const holidaysData = [
         },
         date: '2026-12-13',
         emoji: '🕯️',
+        category: 'cultural',
         description: {
             ru: 'Шведский праздник света во время зимнего солнцестояния. Люди зажигают свечи и поют традиционные песни.',
             en: 'A Swedish festival of lights during the winter solstice with candles and traditional songs.',
@@ -414,6 +469,7 @@ const holidaysData = [
         },
         date: '2026-03-25',
         emoji: '🇬🇷',
+        category: 'official',
         description: {
             ru: 'День независимости Греции от Османской империи (1821). День национального патриотизма и гордости.',
             en: 'Greece\'s independence from the Ottoman Empire in 1821.',
@@ -433,6 +489,7 @@ const holidaysData = [
         },
         date: '2026-10-24',
         emoji: '💡',
+        category: 'religious',
         description: {
             ru: 'Главный индийский праздник света, символизирующий победу добра над злом. Люди украшают дома светильниками и фейерверками.',
             en: 'India\'s major festival of lights celebrating the victory of good over evil.',
@@ -452,6 +509,7 @@ const holidaysData = [
         },
         date: '2026-10-12',
         emoji: '🧭',
+        category: 'cultural',
         description: {
             ru: 'День, посвящённый путешествиям Христофора Колумба и открытию им Нового Света (1492).',
             en: 'Celebrating Christopher Columbus\'s voyage and the discovery of the New World in 1492.',
@@ -471,6 +529,7 @@ const holidaysData = [
         },
         date: '2026-09-12',
         emoji: '🍎',
+        category: 'religious',
         description: {
             ru: 'Еврейский Новый год, начало периода размышления и кайания. Люди едят яблоки с медом как символ сладкого года.',
             en: 'The Jewish New Year, a time of reflection and repentance with apples and honey.',
@@ -490,6 +549,7 @@ const holidaysData = [
         },
         date: '2026-06-21',
         emoji: '☀️',
+        category: 'cultural',
         description: {
             ru: 'День, посвящённый важности солнечной энергии и её применению. Отмечает летнее солнцестояние - самый длинный день в году.',
             en: 'A day celebrating solar energy and the importance of the sun, marking the summer solstice.',
@@ -509,6 +569,7 @@ const holidaysData = [
         },
         date: '2026-03-08',
         emoji: '👩',
+        category: 'official',
         description: {
             ru: 'Праздник, посвящённый всем женщинам мира. День признания величия и красоты женщин, их вклада в общество и семью.',
             en: 'A holiday dedicated to all women in the world, recognizing their greatness and beauty.',
@@ -528,6 +589,7 @@ const holidaysData = [
         },
         date: '2026-03-17',
         emoji: '🍀',
+        category: 'cultural',
         description: {
             ru: 'Ирландский праздник, отмечаемый по всему миру. День, когда все надевают зелёные одежды и украшают себя клевером.',
             en: 'An Irish holiday celebrated worldwide. People wear green and celebrate Irish culture.',
@@ -547,6 +609,7 @@ const holidaysData = [
         },
         date: '2026-03-21',
         emoji: '✒️',
+        category: 'cultural',
         description: {
             ru: 'День, посвящённый поэзии и литературе. Люди читают стихи, пишут свои произведения и делятся творчеством.',
             en: 'A day dedicated to poetry and literature, where people read and share poems.',
@@ -568,6 +631,7 @@ const holidaysData = [
         },
         date: '2026-04-05',
         emoji: '🐣',
+        category: 'religious',
         description: {
             ru: 'Один из самых важных религиозных праздников. День воскресения Иисуса Христа. Люди украшают дома, красят яйца и собираются с семьёй.',
             en: 'One of the most important religious holidays, celebrating the resurrection of Jesus Christ.',
@@ -587,6 +651,7 @@ const holidaysData = [
         },
         date: '2026-04-22',
         emoji: '🌍',
+        category: 'cultural',
         description: {
             ru: 'Глобальный день, посвящённый защите окружающей среды. Люди участвуют в экологических инициативах и сажают деревья.',
             en: 'A global day dedicated to protecting the environment. People participate in ecological initiatives.',
@@ -606,6 +671,7 @@ const holidaysData = [
         },
         date: '2026-04-23',
         emoji: '📖',
+        category: 'cultural',
         description: {
             ru: 'День, посвящённый книгам и литературе. Люди обмениваются книгами и посещают библиотеки.',
             en: 'A day dedicated to books and literature, where people exchange books.',
@@ -627,6 +693,7 @@ const holidaysData = [
         },
         date: '2026-05-01',
         emoji: '💼',
+        category: 'official',
         description: {
             ru: 'Международный день, посвящённый рабочему движению и достижениям трудящихся. Люди отдыхают и проводят время с семьёй.',
             en: 'International Labour Day, celebrating workers and their achievements.',
@@ -647,6 +714,7 @@ const holidaysData = [
         },
         date: '2026-05-10',
         emoji: '👩‍❤️‍👨',
+        category: 'official',
         description: {
             ru: 'День, посвящённый матерям и материнству. Люди дарят подарки, цветы и выражают благодарность своим матерям.',
             en: 'Mother\'s Day, a day dedicated to mothers. People give gifts and thanks to their mothers.',
@@ -669,6 +737,7 @@ const holidaysData = [
         },
         date: '2026-06-21',
         emoji: '👨‍👧',
+        category: 'official',
         description: {
             ru: 'День, посвящённый отцам и отцовству. Люди дарят подарки и выражают благодарность своим отцам.',
             en: 'Father\'s Day, a day dedicated to fathers. People give gifts and thanks to their fathers.',
@@ -688,6 +757,7 @@ const holidaysData = [
         },
         date: '2026-06-21',
         emoji: '☀️',
+        category: 'cultural',
         description: {
             ru: 'Самый длинный день в году. Древний праздник, связанный с природой и солнцем.',
             en: 'The longest day of the year. An ancient holiday celebrating the sun.',
@@ -709,6 +779,7 @@ const holidaysData = [
         },
         date: '2026-07-04',
         emoji: '🇺🇸',
+        category: 'official',
         description: {
             ru: 'Национальный праздник США. День поднимают флаги, проводят парады, устраивают пикники и смотрят фейерверки.',
             en: 'Independence Day of the United States. People raise flags, hold parades and watch fireworks.',
@@ -728,6 +799,7 @@ const holidaysData = [
         },
         date: '2026-07-11',
         emoji: '🍫',
+        category: 'fun',
         description: {
             ru: 'День, посвящённый шоколаду и сладостям. Люди угощают друг друга шоколадом и наслаждаются сладким лакомством.',
             en: 'Chocolate Day, dedicated to chocolate and sweets. People share chocolate with friends.',
@@ -754,6 +826,7 @@ const holidaysData = [
         },
         date: '2026-09-22',
         emoji: '🍂',
+        category: 'cultural',
         description: {
             ru: 'День, когда день и ночь равны по длине. Начало осени. Древний праздник урожая.',
             en: 'Autumn Equinox, when day and night are equal. The beginning of autumn.',
@@ -776,6 +849,7 @@ const holidaysData = [
         },
         date: '2026-10-31',
         emoji: '👻',
+        category: 'fun',
         description: {
             ru: 'Праздник, который отмечается в ночь с 31 октября на 1 ноября. Люди надевают костюмы, украшают дома и раздают конфеты.',
             en: 'Halloween, celebrated on October 31st. People wear costumes and hand out candy.',
@@ -795,6 +869,7 @@ const holidaysData = [
         },
         date: '2026-11-02',
         emoji: '🕯️',
+        category: 'religious',
         description: {
             ru: 'День, посвящённый памяти о умерших. Люди посещают кладбища и зажигают свечи в память о любимых.',
             en: 'All Souls Day, dedicated to remembering the dead.',
@@ -816,6 +891,7 @@ const holidaysData = [
         },
         date: '2026-11-26',
         emoji: '🦃',
+        category: 'official',
         description: {
             ru: 'Праздник благодарности за урожай и благословения. Люди собираются с семьёй, готовят праздничный ужин и благодарят за то, что имеют.',
             en: 'Thanksgiving, a day of gratitude for the harvest and blessings.',
@@ -837,6 +913,7 @@ const holidaysData = [
         },
         date: '2026-12-08',
         emoji: '🎨',
+        category: 'cultural',
         description: {
             ru: 'День, посвящённый искусству и художникам. Люди посещают выставки, музеи и выражают благодарность творческим людям.',
             en: 'Artist\'s Day, dedicated to art and artists.',
@@ -856,6 +933,7 @@ const holidaysData = [
         },
         date: '2026-12-25',
         emoji: '🎄',
+        category: 'religious',
         description: {
             ru: 'Один из самых значимых христианских праздников. День рождения Иисуса Христа отмечается по всему миру красивыми традициями: нарядная ёлка, подарки, песни.',
             en: 'Christmas, one of the most significant Christian holidays, celebrated with trees, gifts and songs.',
@@ -875,6 +953,7 @@ const holidaysData = [
         },
         date: '2026-12-31',
         emoji: '✨',
+        category: 'fun',
         description: {
             ru: 'Последняя ночь года. Время подведения итогов, загадывания желаний и ожидания чуда.',
             en: 'New Year\'s Eve, the last night of the year filled with hopes and celebrations.',
@@ -896,6 +975,7 @@ const holidaysData = [
         },
         date: '2026-03-16',
         emoji: '🎭',
+        category: 'religious',
         description: {
             ru: 'Еврейский праздник, отмечаемый костюмами и маскарадами. Люди дарят друг другу подарки и отмечают спасение еврейского народа.',
             en: 'A Jewish holiday celebrated with costumes and masquerades.',
@@ -915,6 +995,7 @@ const holidaysData = [
         },
         date: '2026-04-13',
         emoji: '🍷',
+        category: 'religious',
         description: {
             ru: 'Еврейский праздник, посвящённый освобождению из рабства. Люди проводят семейный ужин Сейдер.',
             en: 'A Jewish holiday commemorating the exodus from Egypt.',
@@ -934,6 +1015,7 @@ const holidaysData = [
         },
         date: '2026-06-02',
         emoji: '🌾',
+        category: 'religious',
         description: {
             ru: 'Еврейский праздник урожая, отмечаемый дарением Торы. Люди едят молочные продукты и готовят праздничные блюда.',
             en: 'A Jewish harvest festival celebrating the giving of the Torah.',
@@ -953,6 +1035,7 @@ const holidaysData = [
         },
         date: '2026-12-03',
         emoji: '🌍',
+        category: 'cultural',
         description: {
             ru: 'День, посвящённый изучению многокультурности и вкладу иммигрантов в общество.',
             en: 'A day celebrating immigration and multiculturalism.',
@@ -972,6 +1055,7 @@ const holidaysData = [
         },
         date: '2026-05-18',
         emoji: '👑',
+        category: 'official',
         description: {
             ru: 'Канадский праздник, посвящённый дню рождения королевы Виктории.',
             en: 'A Canadian holiday celebrating Queen Victoria\'s birthday.',
@@ -991,6 +1075,7 @@ const holidaysData = [
         },
         date: '2026-10-11',
         emoji: '🍁',
+        category: 'official',
         description: {
             ru: 'Канадский праздник благодарения, отмечаемый в октябре.',
             en: 'Canadian Thanksgiving, celebrated in October.',
@@ -1010,6 +1095,7 @@ const holidaysData = [
         },
         date: '2026-09-21',
         emoji: '🕌',
+        category: 'religious',
         description: {
             ru: 'Еврейский день искупления. Люди постятся и проводят день в молитвах и размышлениях.',
             en: 'The Jewish Day of Atonement, celebrated with fasting and prayer.',
@@ -1029,6 +1115,7 @@ const holidaysData = [
         },
         date: '2026-09-29',
         emoji: '🍂',
+        category: 'religious',
         description: {
             ru: 'Еврейский праздник кущей, посвящённый сбору урожая. Люди строят шалаши и проводят время на природе.',
             en: 'A Jewish festival celebrating the autumn harvest.',
@@ -1048,6 +1135,7 @@ const holidaysData = [
         },
         date: '2026-03-18',
         emoji: '🌙',
+        category: 'religious',
         description: {
             ru: 'Ночь в исламском календаре, считающаяся ночью прощения и благословения.',
             en: 'A holy night in Islam, believed to be the night of forgiveness.',
@@ -1067,6 +1155,7 @@ const holidaysData = [
         },
         date: '2026-05-12',
         emoji: '🕌',
+        category: 'religious',
         description: {
             ru: 'Исламский праздник разговения, отмечаемый после месяца Рамадана. Люди молятся, дарят подарки и собираются с семьёй.',
             en: 'An Islamic festival marking the end of Ramadan.',
@@ -1086,6 +1175,7 @@ const holidaysData = [
         },
         date: '2026-07-20',
         emoji: '🐑',
+        category: 'religious',
         description: {
             ru: 'Исламский праздник жертвоприношения, посвящённый испытанию Авраама. Люди приносят жертвы и делятся мясом с нуждающимися.',
             en: 'An Islamic festival celebrating Abraham\'s willingness to sacrifice.',
@@ -1105,6 +1195,7 @@ const holidaysData = [
         },
         date: '2026-02-17',
         emoji: '🐉',
+        category: 'cultural',
         description: {
             ru: 'В китайском зодиаке это год Дракона. Люди верят, что дети, рождённые в этот год, получают определённые качества.',
             en: 'The Year of the Dragon in the Chinese zodiac, considered lucky.',
@@ -1124,6 +1215,7 @@ const holidaysData = [
         },
         date: '2026-09-16',
         emoji: '✨',
+        category: 'religious',
         description: {
             ru: 'День святой Людмилы, покровительницы Богемии.',
             en: 'Saint Ludmila\'s Day, commemorating the patron saint of Bohemia.',
@@ -1143,6 +1235,7 @@ const holidaysData = [
         },
         date: '2026-02-17',
         emoji: '🌕',
+        category: 'cultural',
         description: {
             ru: 'Отмечается по лунному календарю, это начало весны. Традиционный праздник во многих азиатских странах.',
             en: 'New Year\'s Day according to the lunar calendar, celebrated in Asia.',
@@ -1163,6 +1256,7 @@ const holidaysData = [
         },
         date: '2026-08-28',
         emoji: '🎬',
+        category: 'fun',
         description: {
             ru: 'День, посвящённый кинематографии и фильмам. Люди посещают кинотеатры и наслаждаются фильмами.',
             en: 'Cinema Day, celebrating film and movies.',
@@ -1182,6 +1276,7 @@ const holidaysData = [
         },
         date: '2026-06-08',
         emoji: '🌊',
+        category: 'cultural',
         description: {
             en: 'A day celebrating the importance of oceans and marine conservation.',
             ru: 'День, посвящённый важности океанов и их сохранению.',
@@ -1201,6 +1296,7 @@ const holidaysData = [
         },
         date: '2026-06-05',
         emoji: '🌱',
+        category: 'cultural',
         description: {
             en: 'A day dedicated to environmental protection and sustainability.',
             ru: 'День, посвящённый защите окружающей среды и устойчивости.',
@@ -1220,6 +1316,7 @@ const holidaysData = [
         },
         date: '2026-09-22',
         emoji: '🚶',
+        category: 'cultural',
         description: {
             en: 'A day promoting sustainable transportation and reducing emissions.',
             ru: 'День, пропагандирующий устойчивый транспорт и снижение выбросов.',
@@ -1239,6 +1336,7 @@ const holidaysData = [
         },
         date: '2026-10-04',
         emoji: '🦁',
+        category: 'cultural',
         description: {
             en: 'A day celebrating the importance of protecting animal welfare.',
             ru: 'День, посвящённый защите благополучия животных.',
@@ -1258,6 +1356,7 @@ const holidaysData = [
         },
         date: '2026-12-05',
         emoji: '🤝',
+        category: 'cultural',
         description: {
             en: 'A day celebrating volunteerism and community service.',
             ru: 'День, посвящённый волонтёрству и общественному служению.',
@@ -1277,6 +1376,7 @@ const holidaysData = [
         },
         date: '2026-03-20',
         emoji: '😊',
+        category: 'fun',
         description: {
             en: 'A day promoting well-being and happiness for all.',
             ru: 'День, пропагандирующий благополучие и счастье для всех.',

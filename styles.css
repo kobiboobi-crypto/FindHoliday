@@ -148,8 +148,16 @@ body {
 
 /* ===== СЖАТАЯ ШАПКА ===== */
 .header-scrolled .header-container {
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
+    padding-top: 0.4rem;
+    padding-bottom: 0.4rem;
+}
+
+.header-scrolled .logo h1 {
+    font-size: 1.5rem;
+}
+
+.header-scrolled .user-time {
+    font-size: 1.5rem;
 }
 
 /* ===== MAIN CONTAINER ===== */
@@ -165,7 +173,7 @@ body {
 
 /* ===== ПОИСКОВАЯ ПАНЕЛЬ ===== */
 .search-section {
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem; /* Уменьшили отступ */
 }
 
 .search-container {
@@ -212,6 +220,41 @@ body {
     background-color: #ff5252;
     transform: translateY(-2px);
     box-shadow: var(--shadow-md);
+}
+
+/* ===== СЕКЦИЯ ФИЛЬТРОВ ===== */
+.filter-section {
+    margin-bottom: 1.5rem; /* Уменьшили отступ */
+}
+
+.category-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+}
+
+.category-btn {
+    padding: 0.6rem 1.2rem;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-main);
+    color: var(--text-secondary);
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.category-btn:hover {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+}
+
+.category-btn.active {
+    background-color: var(--accent-color);
+    color: white;
+    border-color: var(--accent-color);
 }
 
 /* ===== КНОПКА "НАВЕРХ" ===== */
@@ -264,6 +307,17 @@ body {
     }
 }
 
+/* Анимация плавного исчезновения */
+@keyframes fade-out {
+    from {
+        opacity: 1;
+        transform: scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+}
 
 /* ===== АНИМАЦИИ ===== */
 .text-transition {
@@ -329,10 +383,9 @@ body {
     transition: opacity 0.25s ease-in-out;
 }
 
-.pinned-remove-btn {
+.pinned-close-btn, .pinned-delete-btn {
     position: absolute;
     top: 4px;
-    right: 4px;
     width: 24px;
     height: 24px;
     border: none;
@@ -344,14 +397,24 @@ body {
     transition: var(--transition);
     display: none;
 }
+.pinned-close-btn {
+    right: 4px;
+    font-size: 1rem;
+}
+.pinned-delete-btn {
+    right: 32px; /* Располагаем левее крестика */
+    font-size: 0.8rem;
+    background-color: #e74c3c;
+}
 
-.pinned-card:hover .pinned-remove-btn {
+.pinned-card:hover .pinned-close-btn,
+.pinned-card:hover .pinned-delete-btn {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.pinned-remove-btn:hover {
+.pinned-close-btn:hover, .pinned-delete-btn:hover {
     background-color: #ff5252;
 }
 
@@ -375,6 +438,7 @@ body {
     cursor: pointer;
     transition: var(--transition);
     display: flex;
+    position: relative; /* Для позиционирования кнопки удаления */
     flex-direction: column;
     opacity: 1;
     /* Начальное состояние для анимации */
@@ -480,10 +544,9 @@ body {
     }
 }
 
-.modal-close {
+.modal-close, .modal-delete-btn {
     position: absolute;
     top: 1rem;
-    right: 1rem;
     width: 36px;
     height: 36px;
     border: none;
@@ -496,8 +559,21 @@ body {
     z-index: 10;
 }
 
-.modal-close:hover {
+.modal-close {
+    right: 1rem;
+}
+
+.modal-delete-btn {
+    right: 3.5rem; /* Располагаем левее крестика */
+    background-color: transparent;
+    font-size: 1.2rem;
+    display: none; /* Скрываем по умолчанию */
+}
+
+.modal-close:hover,
+.modal-delete-btn:hover {
     background-color: var(--border-color);
+    transform: scale(1.1);
 }
 
 .modal-header {
@@ -516,6 +592,15 @@ body {
     color: var(--text-secondary);
 }
 
+.modal-category {
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    background-color: var(--bg-tertiary);
+    padding: 0.25rem 0.75rem;
+    border-radius: 15px;
+    display: inline-block;
+    margin-top: 0.5rem;
+}
 .modal-body {
     padding: 0 1.5rem 1.5rem;
 }
@@ -604,6 +689,11 @@ body {
 
 .heart-icon {
     font-size: 1.5rem;
+}
+
+.pinned-card.fading-out,
+.holiday-card.fading-out {
+    animation: fade-out 0.3s ease-out forwards;
 }
 
 /* ===== АДАПТИВНОСТЬ ===== */
@@ -853,4 +943,62 @@ body.dark-theme .form-textarea {
 
 .no-scroll {
     overflow: hidden;
+}
+
+/* ===== СТИЛИ ДЛЯ УВЕДОМЛЕНИЙ (TOAST) ===== */
+.toast-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1050;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.toast {
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    padding: 1rem 2.5rem 1rem 1.5rem; /* Увеличили отступ справа для кнопки */
+    border-radius: 12px;
+    box-shadow: var(--shadow-md);
+    opacity: 0;
+    transform: translateX(100%);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    min-width: 250px;
+}
+
+.toast-icon {
+    font-size: 1.5rem;
+    margin-right: 1rem;
+    line-height: 1;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.toast-close-btn {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0.2rem;
+    transition: color 0.2s ease;
+}
+
+.toast-close-btn:hover {
+    color: var(--text-primary);
 }

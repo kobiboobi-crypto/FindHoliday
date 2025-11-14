@@ -52,6 +52,12 @@
                 </div>
             </div>
 
+            <!-- Секция фильтрации по категориям -->
+            <div class="filter-section">
+                <div id="categoryFilters" class="category-filters">
+                    <!-- Кнопки категорий будут добавлены здесь -->
+                </div>
+            </div>
             <!-- Секция закреплённых праздников (Избранное) -->
             <div class="pinned-section">
                 <h2 class="pinned-title" data-translate="favorites">Избранные</h2>
@@ -73,11 +79,13 @@
     <div id="holidayModal" class="modal hidden">
         <div class="modal-overlay" id="modalOverlay"></div>
         <div class="modal-content">
+            <button id="deleteHolidayBtn" class="modal-delete-btn" title="Удалить праздник">🗑️</button>
             <button class="modal-close" id="modalClose">&times;</button>
             
             <div class="modal-header">
                 <h2 id="modalTitle" class="modal-title">Название праздника</h2>
                 <p id="modalDate" class="modal-date">Дата</p>
+                <p id="modalCategory" class="modal-category">Категория</p>
             </div>
 
             <div class="modal-body">
@@ -167,6 +175,19 @@
                             rows="3"
                         ></textarea>
                     </div>
+
+                    <div class="form-group">
+                        <label for="holidayCategory" data-translate="category">Категория</label>
+                        <select id="holidayCategory" class="form-input">
+                            <!-- Опции будут добавлены динамически -->
+                            <option value="fun" data-translate="category-fun">Развлекательные</option>
+                            <option value="cultural" data-translate="category-cultural">Культурные</option>
+                            <option value="official" data-translate="category-official">Официальные</option>
+                            <option value="religious" data-translate="category-religious">Религиозные</option>
+                            <!-- Категория "Свои" будет добавлена для режима редактирования -->
+                        </select>
+                    </div>
+
 
                     <div class="form-group">
                         <label>Выберите эмодзи</label>
