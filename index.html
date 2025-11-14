@@ -13,20 +13,23 @@
             <div class="logo">
                 <h1>Find Holiday</h1>
             </div>
-            <!-- Часы пользователя -->
-            <div id="userTime" class="user-time">
-                <!-- Время будет вставлено здесь -->
-            </div>
-            <div class="language-switcher">
-                <button class="lang-btn" data-lang="ru">РУ</button>
-                <button class="lang-btn" data-lang="en">EN</button>
-                <button class="lang-btn" data-lang="de">DE</button>
-                <button class="lang-btn" data-lang="fr">FR</button>
-                <button class="lang-btn" data-lang="uk">UK</button>
-            </div>
-            <!-- Кнопка переключения темы -->
-            <div class="theme-switcher">
-                <button id="themeToggleBtn" class="theme-toggle-btn">☀️</button>
+            <!-- Группа элементов управления в шапке -->
+            <div class="header-controls">
+                <!-- Часы пользователя -->
+                <div id="userTime" class="user-time">
+                    <!-- Время будет вставлено здесь -->
+                </div>
+                <div class="language-switcher">
+                    <button class="lang-btn" data-lang="ru">РУ</button>
+                    <button class="lang-btn" data-lang="en">EN</button>
+                    <button class="lang-btn" data-lang="de">DE</button>
+                    <button class="lang-btn" data-lang="fr">FR</button>
+                    <button class="lang-btn" data-lang="uk">UK</button>
+                </div>
+                <!-- Кнопка переключения темы -->
+                <div class="theme-switcher">
+                    <button id="themeToggleBtn" class="theme-toggle-btn">☀️</button>
+                </div>
             </div>
         </div>
     </header>
@@ -79,9 +82,10 @@
     <div id="holidayModal" class="modal hidden">
         <div class="modal-overlay" id="modalOverlay"></div>
         <div class="modal-content">
+            <button id="editHolidayBtn" class="modal-edit-btn" title="Редактировать праздник">✏️</button>
             <button id="deleteHolidayBtn" class="modal-delete-btn" title="Удалить праздник">🗑️</button>
             <button class="modal-close" id="modalClose">&times;</button>
-            
+
             <div class="modal-header">
                 <h2 id="modalTitle" class="modal-title">Название праздника</h2>
                 <p id="modalDate" class="modal-date">Дата</p>
@@ -216,6 +220,7 @@
             </div>
         </div>
     </div>
+
 
     <!-- Кнопка "Наверх" -->
     <button id="scrollToTopBtn" class="scroll-to-top" title="Наверх">⬆️</button>

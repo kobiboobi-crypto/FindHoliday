@@ -5,6 +5,23 @@ let currentHolidayId = null;
 let selectedEmoji = '🎉';
 let currentCategory = 'all';
 let countdownInterval = null;
+let isEditMode = false;
+let editingHolidayId = null;
+
+// ===== ГЕОЛОКАЦИЯ И АВТОМАТИЧЕСКИЙ ВЫБОР ЯЗЫКА =====
+// Маппинг стран на языки
+const countryToLanguage = {
+    // Русскоязычные страны
+    'RU': 'ru', 'BY': 'ru', 'KZ': 'ru', 'KG': 'ru', 'TJ': 'ru', 'UZ': 'ru', 'AM': 'ru', 'AZ': 'ru', 'MD': 'ru',
+    // Украинские страны
+    'UA': 'uk',
+    // Немецкоговорящие страны
+    'DE': 'de', 'AT': 'de', 'CH': 'de', 'LI': 'de', 'LU': 'de',
+    // Французскоговорящие страны
+    'FR': 'fr', 'BE': 'fr', 'CA': 'fr', 'MC': 'fr',
+    // Англоязычные страны (по умолчанию английский)
+    'US': 'en', 'GB': 'en', 'CA': 'en', 'AU': 'en', 'NZ': 'en', 'IE': 'en'
+};
 
 // ===== DOM ЭЛЕМЕНТЫ =====
 const searchInput = document.getElementById('searchInput');
@@ -14,10 +31,11 @@ const modal = document.getElementById('holidayModal');
 const modalOverlay = document.getElementById('modalOverlay');
 const modalClose = document.getElementById('modalClose');
 const favoriteBtn = document.getElementById('favoriteBtn');
+const editHolidayBtn = document.getElementById('editHolidayBtn');
 const deleteHolidayBtn = document.getElementById('deleteHolidayBtn');
 const langBtns = document.querySelectorAll('.lang-btn');
 const themeToggleBtn = document.getElementById('themeToggleBtn');
-const header = document.querySelector('.header'); 
+const header = document.querySelector('.header');
 const addHolidayBtn = document.getElementById('addHolidayBtn');
 const addHolidayModal = document.getElementById('addHolidayModal');
 const addHolidayForm = document.getElementById('addHolidayForm');
@@ -28,6 +46,7 @@ const emojiBtns = document.querySelectorAll('.emoji-btn');
 const selectedEmojiInput = document.getElementById('selectedEmoji');
 const scrollToTopBtn = document.getElementById('scrollToTopBtn');
 const categoryFiltersContainer = document.getElementById('categoryFilters');
+
 
 // ===== ИНИЦИАЛИЗАЦИЯ =====
 document.addEventListener('DOMContentLoaded', function() {
@@ -95,6 +114,7 @@ function setupEventListeners() {
     modalClose.addEventListener('click', closeModal);
     modalOverlay.addEventListener('click', closeModal);
     favoriteBtn.addEventListener('click', toggleFavorite);
+    editHolidayBtn.addEventListener('click', handleEditHoliday);
     deleteHolidayBtn.addEventListener('click', handleDeleteHoliday);
     
     // Модальное окно добавления праздника
@@ -103,6 +123,7 @@ function setupEventListeners() {
     addHolidayOverlay.addEventListener('click', closeAddHolidayModal);
     cancelHolidayBtn.addEventListener('click', closeAddHolidayModal);
     addHolidayForm.addEventListener('submit', handleAddHoliday);
+
 
     // Выбор эмодзи
     emojiBtns.forEach(btn => {
@@ -136,11 +157,6 @@ function setupEventListeners() {
         }
     });
 
-    // Сжатие шапки при прокрутке
-    window.addEventListener('scroll', function() {
-        const isScrolled = window.pageYOffset > 50;
-        header.classList.toggle('header-scrolled', isScrolled);
-    });
 
     // Кнопка "Наверх"
     window.addEventListener('scroll', function() {
@@ -150,10 +166,12 @@ function setupEventListeners() {
             scrollToTopBtn.classList.remove('visible');
         }
     });
-    
+
     scrollToTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
+
 }
+
 
 // ===== ФУНКЦИЯ ПЕРЕВОДОВ =====
 function setLanguage(lang) {
@@ -177,11 +195,13 @@ function setActiveLanguage(lang) {
 }
 
 function translatePage() {
-    // Обновить плейсхолдер поиска
-    const placeholder = searchInput.getAttribute(`data-placeholder-${currentLanguage}`);
-    if (placeholder) {
-        searchInput.placeholder = placeholder;
-    }
+    // Обновить плейсхолдеры
+    document.querySelectorAll('[data-placeholder]').forEach(element => {
+        const placeholder = element.getAttribute(`data-placeholder-${currentLanguage}`);
+        if (placeholder) {
+            element.placeholder = placeholder;
+        }
+    });
     
     // Обновить текст элементов с атрибутом data-translate
     document.querySelectorAll('[data-translate]').forEach(element => {
@@ -197,6 +217,12 @@ function translatePage() {
         const key = option.getAttribute('data-translate');
         const translatedText = translations[currentLanguage][key];
         if (translatedText) option.textContent = translatedText;
+    });
+
+    // Обновить заголовки в модальных окнах
+    document.querySelectorAll('.modal-title[data-translate]').forEach(el => {
+        const key = el.getAttribute('data-translate');
+        if (translations[currentLanguage][key]) el.textContent = translations[currentLanguage][key];
     });
 }
 
@@ -236,7 +262,6 @@ function handleCategoryFilter(category) {
 }
 
 function renderCategoryFilters() {
-    const categories = ['all', 'today', 'upcoming', 'official', 'cultural', 'religious', 'fun', 'custom'];
     const categories = ['all', 'official', 'cultural', 'religious', 'fun', 'custom'];
     categoryFiltersContainer.innerHTML = '';
 
@@ -267,26 +292,6 @@ function renderHolidays() {
 
     // 1. Фильтрация по категории
     if (currentCategory !== 'all') {
-        if (currentCategory === 'today') {
-            // Показать только сегодняшние праздники
-            const today = new Date();
-            const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
-            filteredHolidays = filteredHolidays.filter(h => h.date === todayStr);
-        } else if (currentCategory === 'upcoming') {
-            // Показать праздники в ближайшие 7 дней
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-            const sevenDaysLater = new Date(today);
-            sevenDaysLater.setDate(today.getDate() + 7);
-            
-            filteredHolidays = filteredHolidays.filter(h => {
-                const holidayDate = new Date(h.date);
-                holidayDate.setHours(0, 0, 0, 0);
-                return holidayDate >= today && holidayDate <= sevenDaysLater;
-            });
-        } else {
-            filteredHolidays = filteredHolidays.filter(h => (h.category || (h.isCustom ? 'custom' : '')) === currentCategory);
-        }
         filteredHolidays = filteredHolidays.filter(h => (h.category || (h.isCustom ? 'custom' : '')) === currentCategory);
     }
 
@@ -332,37 +337,68 @@ function createHolidayCard(holiday) {
     return card;
 }
 
+
 // ===== ФУНКЦИИ ДОБАВЛЕНИЯ СВОИХ ПРАЗДНИКОВ =====
-function openAddHolidayModal() {
+function openAddHolidayModal(isEdit = false, holidayId = null) {
     addHolidayForm.reset();
-    
+
     const modalTitleEl = addHolidayModal.querySelector('.modal-title');
     const saveBtn = addHolidayModal.querySelector('.btn-save');
     const categorySelect = document.getElementById('holidayCategory');
     const defaultEmoji = '🎉';
-    
+
     updateFormPlaceholders();
-    
+
     emojiBtns.forEach(btn => {
         btn.classList.remove('selected');
-        if (btn.getAttribute('data-emoji') === '🎉') {
+        if (btn.getAttribute('data-emoji') === defaultEmoji) {
             btn.classList.add('selected');
         }
     });
 
-    // --- РЕЖИМ ДОБАВЛЕНИЯ ---
-    modalTitleEl.textContent = translations[currentLanguage]['add-custom'];
-    saveBtn.textContent = translations[currentLanguage]['save'];
-    categorySelect.value = 'fun'; // Категория по умолчанию для новых
-    selectedEmoji = defaultEmoji;
-    selectedEmojiInput.value = defaultEmoji;
-    
-    const today = new Date(); // Ограничение даты
-    const yyyy = today.getFullYear();
-    const mm = String(today.getMonth() + 1).padStart(2, '0');
-    const dd = String(today.getDate()).padStart(2, '0');
-    document.getElementById('holidayDate').min = `${yyyy}-${mm}-${dd}`;
-    
+    isEditMode = isEdit;
+    editingHolidayId = holidayId;
+
+    if (isEdit && holidayId) {
+        const holiday = holidaysData.find(h => h.id === holidayId);
+        if (holiday) {
+            // --- РЕЖИМ РЕДАКТИРОВАНИЯ ---
+            modalTitleEl.textContent = translations[currentLanguage]['edit-custom'] || 'Редактировать праздник';
+            saveBtn.textContent = translations[currentLanguage]['update'] || 'Обновить';
+
+            // Заполняем форму данными праздника
+            document.getElementById('holidayName').value = holiday.title[currentLanguage];
+            document.getElementById('holidayDate').value = holiday.date;
+            document.getElementById('holidayDescription').value = holiday.description[currentLanguage];
+            categorySelect.value = holiday.category || 'custom';
+            selectedEmoji = holiday.emoji;
+            selectedEmojiInput.value = holiday.emoji;
+
+            // Выбираем соответствующий эмодзи
+            emojiBtns.forEach(btn => {
+                if (btn.getAttribute('data-emoji') === holiday.emoji) {
+                    btn.classList.add('selected');
+                }
+            });
+
+            // Убираем ограничение даты для редактирования
+            document.getElementById('holidayDate').min = '';
+        }
+    } else {
+        // --- РЕЖИМ ДОБАВЛЕНИЯ ---
+        modalTitleEl.textContent = translations[currentLanguage]['add-custom'];
+        saveBtn.textContent = translations[currentLanguage]['save'];
+        categorySelect.value = 'custom'; // Категория по умолчанию для новых
+        selectedEmoji = defaultEmoji;
+        selectedEmojiInput.value = defaultEmoji;
+
+        const today = new Date(); // Ограничение даты
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, '0');
+        const dd = String(today.getDate()).padStart(2, '0');
+        document.getElementById('holidayDate').min = `${yyyy}-${mm}-${dd}`;
+    }
+
     addHolidayModal.classList.remove('hidden');
     document.body.classList.add('no-scroll');
 }
@@ -370,25 +406,33 @@ function openAddHolidayModal() {
 function closeAddHolidayModal() {
     addHolidayModal.classList.add('hidden');
     document.body.classList.remove('no-scroll');
+    isEditMode = false;
+    editingHolidayId = null;
 }
 
 function handleAddHoliday(e) {
     e.preventDefault();
-    
+
     const name = document.getElementById('holidayName').value.trim();
     const date = document.getElementById('holidayDate').value;
     const description = document.getElementById('holidayDescription').value.trim();
     const category = document.getElementById('holidayCategory').value;
-    
+
     if (!name || !date) {
         alert('Пожалуйста, заполните название и дату');
         return;
     }
-    
-    // Добавляем новый праздник
-    addCustomHoliday(name, date, description, selectedEmoji, category);
-    showToast('✅ Праздник успешно добавлен!', '🎉');
-    
+
+    if (isEditMode && editingHolidayId) {
+        // Обновляем существующий праздник
+        updateCustomHoliday(editingHolidayId, name, date, description, selectedEmoji, category);
+        showToast('✅ Праздник успешно обновлён!', '✏️');
+    } else {
+        // Добавляем новый праздник
+        addCustomHoliday(name, date, description, selectedEmoji, category);
+        showToast('✅ Праздник успешно добавлен!', '🎉');
+    }
+
     closeAddHolidayModal();
     renderHolidays();
     updatePinnedDisplay();
@@ -433,6 +477,33 @@ function addCustomHoliday(name, date, description = '', emoji = '🎉', category
     checkIfHolidayIsToday(customHoliday);
 
     return customHoliday;
+}
+
+function updateCustomHoliday(id, name, date, description, emoji, category) {
+    const holidayIndex = holidaysData.findIndex(h => h.id === id);
+    if (holidayIndex === -1) return;
+
+    const holiday = holidaysData[holidayIndex];
+
+    // Обновляем данные
+    holiday.title = { ru: name, en: name, de: name, fr: name, uk: name };
+    holiday.date = date;
+    holiday.emoji = emoji;
+    holiday.category = category;
+    holiday.description = {
+        ru: description || 'Мой собственный праздник',
+        en: description || 'My custom holiday',
+        de: description || 'Mein benutzerdefinierter Feiertag',
+        fr: description || 'Ma fête personnalisée',
+        uk: description || 'Мій власний святок'
+    };
+
+    // Сохраняем в localStorage
+    const customHolidays = holidaysData.filter(h => h.isCustom);
+    localStorage.setItem('findholiday_custom_holidays', JSON.stringify(customHolidays));
+
+    // Проверяем, не сегодня ли обновленный праздник
+    checkIfHolidayIsToday(holiday);
 }
 
 function loadCustomHolidays() {
@@ -538,6 +609,7 @@ function checkIfHolidayIsToday(holiday) {
     }
 }
 
+
 // ===== ФУНКЦИЯ ОТОБРАЖЕНИЯ ВРЕМЕНИ =====
 function startTimeClock() {
     const timeElement = document.getElementById('userTime');
@@ -625,17 +697,31 @@ function showHolidayDetails(holidayId) {
     const isFavorite = favorites.includes(holidayId);
     updateFavoriteButton(isFavorite);
 
-    // Показать или скрыть кнопку удаления
+    // Показать или скрыть кнопки редактирования и удаления
     const isCustom = holiday.isCustom || false;
+    editHolidayBtn.style.display = isCustom ? 'flex' : 'none';
+    editHolidayBtn.style.alignItems = 'center'; // Для вертикального центрирования
+    editHolidayBtn.style.justifyContent = 'center'; // Для горизонтального
     deleteHolidayBtn.style.display = isCustom ? 'flex' : 'none';
     deleteHolidayBtn.style.alignItems = 'center'; // Для вертикального центрирования
     deleteHolidayBtn.style.justifyContent = 'center'; // Для горизонтального
     // Открыть модальное окно
     modal.classList.remove('hidden');
     document.body.classList.add('no-scroll');
-    
+
+
     // Запустить обратный отсчёт
     startCountdown(holiday.date);
+}
+
+function handleEditHoliday() {
+    if (!currentHolidayId) return;
+
+    const holidayToEdit = holidaysData.find(h => h.id === currentHolidayId);
+    if (!holidayToEdit || !holidayToEdit.isCustom) return;
+
+    closeModal();
+    openAddHolidayModal(true, holidayToEdit.id);
 }
 
 function handleDeleteHoliday() {
@@ -792,24 +878,24 @@ function createPinnedCard(holiday) {
     const card = document.createElement('div');
     card.setAttribute('data-id', holiday.id);
     card.className = 'pinned-card';
-    
+
     const title = holiday.title[currentLanguage];
     const date = formatDateForDisplay(holiday.date);
-    
+
     card.innerHTML = `
         <button class="pinned-delete-btn" title="Удалить из избранного">🗑️</button>
         <button class="pinned-close-btn">×</button>
         <div class="pinned-card-title">${holiday.emoji} ${title}</div>
         <div class="pinned-card-date">${date}</div>
     `;
-    
+
     // Клик на карточку открывает детали
     card.addEventListener('click', (e) => {
         if (!e.target.classList.contains('pinned-close-btn') && !e.target.classList.contains('pinned-delete-btn')) {
             showHolidayDetails(holiday.id);
         }
     });
-    
+
     // Кнопка удаления
     const removeHoliday = (e) => {
         e.stopPropagation();
@@ -820,8 +906,8 @@ function createPinnedCard(holiday) {
             localStorage.setItem('findholiday_favorites', JSON.stringify(favorites));
             updatePinnedDisplay();
         }, 300);
-        
-        
+
+
         // Если открыта деталь этого праздника, обновить кнопку
         if (currentHolidayId === holiday.id) {
             updateFavoriteButton(false);
@@ -830,6 +916,7 @@ function createPinnedCard(holiday) {
 
     card.querySelector('.pinned-delete-btn').addEventListener('click', removeHoliday);
     card.querySelector('.pinned-close-btn').addEventListener('click', removeHoliday);
-    
+
     return card;
 }
+
