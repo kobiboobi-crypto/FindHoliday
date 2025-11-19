@@ -32,6 +32,18 @@ const translations = {
         'category-custom': 'Свои',
         'edit-custom': 'Редактировать праздник',
         'update': 'Обновить',
+        'today': 'Сегодня',
+        'holidays-on-date': 'Праздники',
+        'no-holidays-on-date': 'Нет праздников в этот день',
+        'mon': 'Пн',
+        'tue': 'Вт',
+        'wed': 'Ср',
+        'thu': 'Чт',
+        'fri': 'Пт',
+        'sat': 'Сб',
+        'sun': 'Вс',
+        'view-list': 'Список',
+        'view-calendar': 'Календарь',
     },
     en: {
         'favorites': 'Favorites',
@@ -65,6 +77,18 @@ const translations = {
         'category-custom': 'Custom',
         'edit-custom': 'Edit custom holiday',
         'update': 'Update',
+        'today': 'Today',
+        'holidays-on-date': 'Holidays',
+        'no-holidays-on-date': 'No holidays on this day',
+        'mon': 'Mon',
+        'tue': 'Tue',
+        'wed': 'Wed',
+        'thu': 'Thu',
+        'fri': 'Fri',
+        'sat': 'Sat',
+        'sun': 'Sun',
+        'view-list': 'List',
+        'view-calendar': 'Calendar',
     },
     de: {
         'favorites': 'Favoriten',
@@ -98,6 +122,18 @@ const translations = {
         'category-custom': 'Benutzerdefiniert',
         'edit-custom': 'Benutzerdefinierten Feiertag bearbeiten',
         'update': 'Aktualisieren',
+        'today': 'Heute',
+        'holidays-on-date': 'Feiertage',
+        'no-holidays-on-date': 'Keine Feiertage an diesem Tag',
+        'mon': 'Mo',
+        'tue': 'Di',
+        'wed': 'Mi',
+        'thu': 'Do',
+        'fri': 'Fr',
+        'sat': 'Sa',
+        'sun': 'So',
+        'view-list': 'Liste',
+        'view-calendar': 'Kalender',
     },
     fr: {
         'favorites': 'Favoris',
@@ -131,6 +167,18 @@ const translations = {
         'category-custom': 'Personnalisé',
         'edit-custom': 'Modifier la vacance personnalisée',
         'update': 'Mettre à jour',
+        'today': 'Aujourd\'hui',
+        'holidays-on-date': 'Vacances',
+        'no-holidays-on-date': 'Aucune vacance ce jour',
+        'mon': 'Lun',
+        'tue': 'Mar',
+        'wed': 'Mer',
+        'thu': 'Jeu',
+        'fri': 'Ven',
+        'sat': 'Sam',
+        'sun': 'Dim',
+        'view-list': 'Liste',
+        'view-calendar': 'Calendrier',
     },
     uk: {
         'favorites': 'Улюблені',
@@ -164,6 +212,18 @@ const translations = {
         'category-custom': 'Свої',
         'edit-custom': 'Редагувати власне святкування',
         'update': 'Оновити',
+        'today': 'Сьогодні',
+        'holidays-on-date': 'Святкування',
+        'no-holidays-on-date': 'Немає святкувань цього дня',
+        'mon': 'Пн',
+        'tue': 'Вт',
+        'wed': 'Ср',
+        'thu': 'Чт',
+        'fri': 'Пт',
+        'sat': 'Сб',
+        'sun': 'Нд',
+        'view-list': 'Список',
+        'view-calendar': 'Календар',
     }
 };
 
@@ -1401,4 +1461,44 @@ let holidaysData = [
         }
     },
 
+    {
+        id: 62,
+        title: {
+            ru: 'День Независимости Украины',
+            en: 'Independence Day of Ukraine',
+            de: 'Unabhängigkeitstag der Ukraine',
+            fr: 'Jour de l\'indépendance de l\'Ukraine',
+            uk: 'День Незалежності України'
+        },
+        date: '2026-08-24',
+        emoji: '🇺🇦',
+        category: 'official',
+        description: {
+            ru: 'День Независимости Украины - главный государственный праздник Украины, отмечающий провозглашение независимости в 1991 году. Это день свободы, патриотизма и единства украинского народа. Проводятся парады, концерты и массовые мероприятия.',
+            en: 'Ukraine\'s Independence Day is Ukraine\'s main public holiday celebrating the proclamation of independence in 1991. It is a day of freedom, patriotism and unity of the Ukrainian people. Parades, concerts and mass events are held.',
+            de: 'Der Unabhängigkeitstag der Ukraine ist der wichtigste Staatsfeiertag der Ukraine, der die Ausrufung der Unabhängigkeit im Jahr 1991 feiert. Es ist ein Tag der Freiheit, des Patriotismus und der Einheit des ukrainischen Volkes. Paraden, Konzerte und Massenveranstaltungen finden statt.',
+            fr: 'Le Jour de l\'indépendance de l\'Ukraine est la principale fête publique de l\'Ukraine célébrant la proclamation d\'indépendance en 1991. C\'est un jour de liberté, de patriotisme et d\'unité du peuple ukrainien. Des défilés, des concerts et des événements de masse ont lieu.',
+            uk: 'День Незалежності України - головне державне свято України, яке відзначає проголошення незалежності в 1991 році. Це день свободи, патріотизму та єдності українського народу. Проводяться паради, концерти та масові заходи.'
+        }
+    },
+    {
+        id: 63,
+        title: {
+            ru: 'День германского единства',
+            en: 'German Unity Day',
+            de: 'Tag der Deutschen Einheit',
+            fr: 'Jour de l\'unité allemande',
+            uk: 'День німецької єдності'
+        },
+        date: '2026-10-03',
+        emoji: '🇩🇪',
+        category: 'official',
+        description: {
+            ru: 'День германского единства - национальный праздник Германии, отмечающий воссоединение Восточной и Западной Германии в 1990 году. Это день единства, свободы и демократии. Проводятся парады, концерты и семейные торжества.',
+            en: 'German Unity Day is Germany\'s national holiday commemorating the reunification of East and West Germany in 1990. It is a day of unity, freedom and democracy. Parades, concerts and family celebrations are held.',
+            de: 'Der Tag der Deutschen Einheit ist Deutschlands Nationalfeiertag, der die Wiedervereinigung von Ost- und Westdeutschland im Jahr 1990 feiert. Es ist ein Tag der Einheit, Freiheit und Demokratie. Paraden, Konzerte und Familienfeiern finden statt.',
+            fr: 'Le Jour de l\'unité allemande est la fête nationale de l\'Allemagne commémorant la réunification de l\'Allemagne de l\'Est et de l\'Ouest en 1990. C\'est un jour d\'unité, de liberté et de démocratie. Des défilés, des concerts et des célébrations familiales ont lieu.',
+            uk: 'День німецької єдності - національне свято Німеччини, яке відзначає возз\'єднання Східної та Західної Німеччини в 1990 році. Це день єдності, свободи та демократії. Проводяться паради, концерти та сімейні торжества.'
+        }
+    }
 ];

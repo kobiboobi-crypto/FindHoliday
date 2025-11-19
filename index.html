@@ -55,10 +55,22 @@
                 </div>
             </div>
 
-            <!-- Секция фильтрации по категориям -->
+            <!-- Секция фильтрации по категориям и переключения вида -->
             <div class="filter-section">
-                <div id="categoryFilters" class="category-filters">
-                    <!-- Кнопки категорий будут добавлены здесь -->
+                <div class="filter-controls">
+                    <div id="categoryFilters" class="category-filters">
+                        <!-- Кнопки категорий будут добавлены здесь -->
+                    </div>
+                    <div class="view-switcher">
+                        <button id="listViewBtn" class="view-btn active" title="Список">
+                            <span class="view-icon">📋</span>
+                            <span class="view-text" data-translate="view-list">Список</span>
+                        </button>
+                        <button id="calendarViewBtn" class="view-btn" title="Календарь">
+                            <span class="view-icon">📅</span>
+                            <span class="view-text" data-translate="view-calendar">Календарь</span>
+                        </button>
+                    </div>
                 </div>
             </div>
             <!-- Секция закреплённых праздников (Избранное) -->
@@ -69,8 +81,23 @@
                 </div>
             </div>
 
+            <!-- Календарный вид -->
+            <div id="calendarView" class="calendar-view hidden">
+                <div class="calendar-header">
+                    <button id="prevMonthBtn" class="calendar-nav-btn">‹</button>
+                    <div class="calendar-title">
+                        <h2 id="calendarMonthYear">Январь 2026</h2>
+                        <button id="todayBtn" class="today-btn" data-translate="today">Сегодня</button>
+                    </div>
+                    <button id="nextMonthBtn" class="calendar-nav-btn">›</button>
+                </div>
+                <div class="calendar-grid" id="calendarGrid">
+                    <!-- Календарная сетка будет добавлена здесь -->
+                </div>
+            </div>
+
             <!-- Основной список праздников -->
-            <div class="holidays-section">
+            <div id="listView" class="holidays-section">
                 <div id="holidaysList" class="holidays-list">
                     <!-- Карточки праздников будут добавлены здесь -->
                 </div>
@@ -221,6 +248,25 @@
         </div>
     </div>
 
+
+    <!-- Модальное окно для праздников выбранной даты -->
+    <div id="dateHolidaysModal" class="modal hidden">
+        <div class="modal-overlay" id="dateModalOverlay"></div>
+        <div class="modal-content date-modal-content">
+            <button class="modal-close" id="dateModalClose">&times;</button>
+            
+            <div class="modal-header">
+                <h2 id="dateModalTitle" class="modal-title">Праздники</h2>
+                <p id="dateModalDate" class="modal-date">Дата</p>
+            </div>
+            
+            <div class="modal-body">
+                <div id="dateHolidaysList" class="date-holidays-list">
+                    <!-- Список праздников для выбранной даты -->
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Кнопка "Наверх" -->
     <button id="scrollToTopBtn" class="scroll-to-top" title="Наверх">⬆️</button>

@@ -14,6 +14,18 @@ const translations = {
         'holiday-today': 'Сегодня!',
         'holiday-passed': 'Прошёл',
         'days-left': 'Дней осталось',
+        'view-list': 'Список',
+        'view-calendar': 'Календарь',
+        'today': 'Сегодня',
+        'holidays-on-date': 'Праздники',
+        'no-holidays-on-date': 'Нет праздников в этот день',
+        'mon': 'Пн',
+        'tue': 'Вт',
+        'wed': 'Ср',
+        'thu': 'Чт',
+        'fri': 'Пт',
+        'sat': 'Сб',
+        'sun': 'Вс',
     },
     en: {
         'favorites': 'Favorites',
@@ -29,6 +41,18 @@ const translations = {
         'holiday-today': 'Today!',
         'holiday-passed': 'Passed',
         'days-left': 'Days left',
+        'view-list': 'List',
+        'view-calendar': 'Calendar',
+        'today': 'Today',
+        'holidays-on-date': 'Holidays',
+        'no-holidays-on-date': 'No holidays on this day',
+        'mon': 'Mon',
+        'tue': 'Tue',
+        'wed': 'Wed',
+        'thu': 'Thu',
+        'fri': 'Fri',
+        'sat': 'Sat',
+        'sun': 'Sun',
     },
     de: {
         'favorites': 'Favoriten',
@@ -44,6 +68,18 @@ const translations = {
         'holiday-today': 'Heute!',
         'holiday-passed': 'Abgelaufen',
         'days-left': 'Tage verbleibend',
+        'view-list': 'Liste',
+        'view-calendar': 'Kalender',
+        'today': 'Heute',
+        'holidays-on-date': 'Feiertage',
+        'no-holidays-on-date': 'Keine Feiertage an diesem Tag',
+        'mon': 'Mo',
+        'tue': 'Di',
+        'wed': 'Mi',
+        'thu': 'Do',
+        'fri': 'Fr',
+        'sat': 'Sa',
+        'sun': 'So',
     },
     fr: {
         'favorites': 'Favoris',
@@ -59,6 +95,18 @@ const translations = {
         'holiday-today': 'Aujourd\'hui!',
         'holiday-passed': 'Passé',
         'days-left': 'Jours restants',
+        'view-list': 'Liste',
+        'view-calendar': 'Calendrier',
+        'today': 'Aujourd\'hui',
+        'holidays-on-date': 'Vacances',
+        'no-holidays-on-date': 'Pas de vacances ce jour',
+        'mon': 'Lun',
+        'tue': 'Mar',
+        'wed': 'Mer',
+        'thu': 'Jeu',
+        'fri': 'Ven',
+        'sat': 'Sam',
+        'sun': 'Dim',
     },
     uk: {
         'favorites': 'Улюблені',
@@ -74,6 +122,18 @@ const translations = {
         'holiday-today': 'Сьогодні!',
         'holiday-passed': 'Минув',
         'days-left': 'Днів залишилось',
+        'view-list': 'Список',
+        'view-calendar': 'Календар',
+        'today': 'Сьогодні',
+        'holidays-on-date': 'Свята',
+        'no-holidays-on-date': 'Немає свят у цей день',
+        'mon': 'Пн',
+        'tue': 'Вт',
+        'wed': 'Ср',
+        'thu': 'Чт',
+        'fri': 'Пт',
+        'sat': 'Сб',
+        'sun': 'Нд',
     }
 };
 
@@ -268,5 +328,65 @@ const holidaysData = [
             fr: 'Le Nouvel An Chinois (Festival du Printemps) est l\'une des plus importantes fêtes de la culture chinoise. C\'est un moment pour les réunions de famille, les diners luxueux et les traditions festives. Les gens décorent leurs maisons en rouge, font exploser des pétards et offrent des enveloppes rouges avec de l\'argent. C\'est un symbole de nouveaux débuts et de prospérité.',
             uk: 'Китайський Новий Рік (Весняний фестиваль) - одне з найважливіших свят китайської культури. Це час для сімейних зібрань, розкішних вечер та святкових традицій. Люди прикрашають свої дома червоним, палять петарди, дарують червоні конверти з грошима. Це символ нового початку та процвітання.'
         }
+    },
+    {
+        id: 11,
+        title: {
+            ru: 'День Канады',
+            en: 'Canada Day',
+            de: 'Kanada-Tag',
+            fr: 'Jour du Canada',
+            uk: 'День Канади'
+        },
+        date: '2026-07-01',
+        emoji: '🇨🇦',
+        description: {
+            ru: 'День Канады - национальный праздник Канады, отмечающий вступление в силу Конституционного акта 1867 года. В этот день канадцы празднуют свою историю, культуру и достижения. Проводятся парады, фейерверки и семейные пикники.',
+            en: 'Canada Day is Canada\'s national holiday celebrating the enactment of the Constitution Act of 1867. On this day, Canadians celebrate their history, culture and achievements. Parades, fireworks and family picnics are held.',
+            de: 'Der Kanada-Tag ist Kanadas Nationalfeiertag, der die Verabschiedung des Verfassungsgesetzes von 1867 feiert. An diesem Tag feiern Kanadier ihre Geschichte, Kultur und Errungenschaften. Paraden, Feuerwerke und Familienpicknicks finden statt.',
+            fr: 'Le Jour du Canada est la fête nationale du Canada célébrant l\'entrée en vigueur de la Loi constitutionnelle de 1867. Ce jour-là, les Canadiens célèbrent leur histoire, leur culture et leurs réalisations. Des défilés, des feux d\'artifice et des pique-niques en famille ont lieu.',
+            uk: 'День Канади - національне свято Канади, яке відзначає набуття чинності Конституційного акту 1867 року. У цей день канадці святкують свою історію, культуру та досягнення. Проводяться паради, фейєрверки та сімейні пікніки.'
+        },
+        category: 'official'
+    },
+    {
+        id: 12,
+        title: {
+            ru: 'День Независимости Украины',
+            en: 'Independence Day of Ukraine',
+            de: 'Unabhängigkeitstag der Ukraine',
+            fr: 'Jour de l\'indépendance de l\'Ukraine',
+            uk: 'День Незалежності України'
+        },
+        date: '2026-08-24',
+        emoji: '🇺🇦',
+        description: {
+            ru: 'День Независимости Украины - главный государственный праздник Украины, отмечающий провозглашение независимости в 1991 году. Это день свободы, патриотизма и единства украинского народа. Проводятся парады, концерты и массовые мероприятия.',
+            en: 'Ukraine\'s Independence Day is Ukraine\'s main public holiday celebrating the proclamation of independence in 1991. It is a day of freedom, patriotism and unity of the Ukrainian people. Parades, concerts and mass events are held.',
+            de: 'Der Unabhängigkeitstag der Ukraine ist der wichtigste Staatsfeiertag der Ukraine, der die Ausrufung der Unabhängigkeit im Jahr 1991 feiert. Es ist ein Tag der Freiheit, des Patriotismus und der Einheit des ukrainischen Volkes. Paraden, Konzerte und Massenveranstaltungen finden statt.',
+            fr: 'Le Jour de l\'indépendance de l\'Ukraine est la principale fête publique de l\'Ukraine célébrant la proclamation d\'indépendance en 1991. C\'est un jour de liberté, de patriotisme et d\'unité du peuple ukrainien. Des défilés, des concerts et des événements de masse ont lieu.',
+            uk: 'День Незалежності України - головне державне свято України, яке відзначає проголошення незалежності в 1991 році. Це день свободи, патріотизму та єдності українського народу. Проводяться паради, концерти та масові заходи.'
+        },
+        category: 'official'
+    },
+    {
+        id: 13,
+        title: {
+            ru: 'День германского единства',
+            en: 'German Unity Day',
+            de: 'Tag der Deutschen Einheit',
+            fr: 'Jour de l\'unité allemande',
+            uk: 'День німецької єдності'
+        },
+        date: '2026-10-03',
+        emoji: '🇩🇪',
+        description: {
+            ru: 'День германского единства - национальный праздник Германии, отмечающий воссоединение Восточной и Западной Германии в 1990 году. Это день единства, свободы и демократии. Проводятся парады, концерты и семейные торжества.',
+            en: 'German Unity Day is Germany\'s national holiday commemorating the reunification of East and West Germany in 1990. It is a day of unity, freedom and democracy. Parades, concerts and family celebrations are held.',
+            de: 'Der Tag der Deutschen Einheit ist Deutschlands Nationalfeiertag, der die Wiedervereinigung von Ost- und Westdeutschland im Jahr 1990 feiert. Es ist ein Tag der Einheit, Freiheit und Demokratie. Paraden, Konzerte und Familienfeiern finden statt.',
+            fr: 'Le Jour de l\'unité allemande est la fête nationale de l\'Allemagne commémorant la réunification de l\'Allemagne de l\'Est et de l\'Ouest en 1990. C\'est un jour d\'unité, de liberté et de démocratie. Des défilés, des concerts et des célébrations familiales ont lieu.',
+            uk: 'День німецької єдності - національне свято Німеччини, яке відзначає возз\'єднання Східної та Західної Німеччини в 1990 році. Це день єдності, свободи та демократії. Проводяться паради, концерти та сімейні торжества.'
+        },
+        category: 'official'
     }
 ];
