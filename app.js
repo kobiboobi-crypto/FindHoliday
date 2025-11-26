@@ -53,6 +53,37 @@ document.addEventListener('DOMContentLoaded', function() {
     // Сначала загружаем пользовательские праздники, чтобы они были доступны
     loadCustomHolidays();
     initializeApp();
+
+    // Регистрация Service Worker
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/service-worker.js')
+                .then(registration => {
+                    console.log('Service Worker зарегистрирован успешно:', registration);
+
+                    // Регистрация фоновой синхронизации для проверки праздников
+                    if ('sync' in registration) {
+                        registration.sync.register('check-holidays')
+                            .then(() => {
+                                console.log('Фоновая синхронизация зарегистрирована');
+                            })
+                            .catch(error => {
+                                console.log('Ошибка регистрации фоновой синхронизации:', error);
+                            });
+                    }
+                })
+                .catch(error => {
+                    console.log('Ошибка регистрации Service Worker:', error);
+                });
+        });
+
+        // Обработка сообщений от Service Worker
+        navigator.serviceWorker.addEventListener('message', function(event) {
+            if (event.data && event.data.holidayId) {
+                showHolidayDetails(event.data.holidayId);
+            }
+        });
+    }
 });
 
 function getDefaultLanguage() {
@@ -106,7 +137,15 @@ function initializeApp() {
     renderCategoryFilters();
 
     // Проверить, есть ли сегодня праздники
-    checkTodaysHolidays();
+    requestAndCheckHolidays(); // Запрашиваем разрешение и проверяем праздники
+
+    // Для тестирования: добавить кнопку для ручного вызова синхронизации
+    addTestButton();
+}
+function requestNotificationPermission() {
+    if ('Notification' in window && Notification.permission !== 'granted' && Notification.permission !== 'denied') {
+        Notification.requestPermission();
+    }
 }
 
 // ===== ОБРАБОТЧИКИ СОБЫТИЙ =====
@@ -616,8 +655,16 @@ function checkIfHolidayIsToday(holiday) {
         const message = `${translations[currentLanguage]['holiday-today']} — ${holiday.title[currentLanguage]}!`;
         // Передаем эмодзи праздника в качестве иконки
         showToast(message, holiday.emoji);
+        const title = `${holiday.emoji} ${holiday.title[currentLanguage]}`;
+        const options = {
+            body: translations[currentLanguage]['holiday-today'] || 'Сегодня праздник!',
+            // icon: 'path/to/icon.png' // Можно добавить иконку, если она есть
+            // icon: 'path/to/icon.png' // Сюда можно добавить путь к иконке приложения
+        };
+        showBrowserNotification(title, options, holiday.id);
     }
 }
+
 
 
 // ===== ФУНКЦИЯ ОТОБРАЖЕНИЯ ВРЕМЕНИ =====
@@ -769,67 +816,6 @@ function handleDeleteHoliday() {
     }, 300); // Задержка соответствует длительности анимации
 }
 
-function closeModal() {
-    modal.classList.add('hidden');
-    document.body.classList.remove('no-scroll');
-    
-    // Остановить обратный отсчёт
-    if (countdownInterval) {
-        clearInterval(countdownInterval);
-        countdownInterval = null;
-    }
-    
-    currentHolidayId = null;
-}
-
-// ===== ФУНКЦИЯ ОБРАТНОГО ОТСЧЁТА =====
-function startCountdown(targetDate) {
-    // Очистить предыдущий интервал
-    if (countdownInterval) {
-        clearInterval(countdownInterval);
-    }
-    
-    // Обновить счётчик сразу
-    updateCountdownDisplay(targetDate);
-    
-    // Обновлять каждую секунду
-    countdownInterval = setInterval(() => {
-        updateCountdownDisplay(targetDate);
-    }, 1000);
-}
-
-function updateCountdownDisplay(targetDate) {
-    const now = new Date();
-    const target = new Date(targetDate);
-    
-    let diff = target - now;
-    
-    if (diff <= 0) {
-        // Праздник уже наступил или наступает
-        document.getElementById('countdownDays').textContent = '0';
-        document.getElementById('countdownHours').textContent = '0';
-        document.getElementById('countdownMinutes').textContent = '0';
-        document.getElementById('countdownSeconds').textContent = '0';
-        return;
-    }
-    
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    diff %= 1000 * 60 * 60 * 24;
-    
-    const hours = Math.floor(diff / (1000 * 60 * 60));
-    diff %= 1000 * 60 * 60;
-    
-    const minutes = Math.floor(diff / (1000 * 60));
-    diff %= 1000 * 60;
-    
-    const seconds = Math.floor(diff / 1000);
-    
-    document.getElementById('countdownDays').textContent = days;
-    document.getElementById('countdownHours').textContent = String(hours).padStart(2, '0');
-    document.getElementById('countdownMinutes').textContent = String(minutes).padStart(2, '0');
-    document.getElementById('countdownSeconds').textContent = String(seconds).padStart(2, '0');
-}
-
 // ===== ФУНКЦИИ УПРАВЛЕНИЯ ИЗБРАННЫМ =====
 function toggleFavorite() {
     if (!currentHolidayId) return;
@@ -926,4 +912,193 @@ function createPinnedCard(holiday) {
     card.querySelector('.pinned-close-btn').addEventListener('click', removeHoliday);
 
     return card;
+}
+
+function closeModal() {
+    modal.classList.add('hidden');
+    document.body.classList.remove('no-scroll');
+    
+    // Остановить обратный отсчёт
+    if (countdownInterval) {
+        clearInterval(countdownInterval);
+        countdownInterval = null;
+    }
+    
+    currentHolidayId = null;
+}
+
+// ===== ФУНКЦИЯ ОБРАТНОГО ОТСЧЁТА =====
+function startCountdown(targetDate) {
+    // Очистить предыдущий интервал
+    if (countdownInterval) {
+        clearInterval(countdownInterval);
+    }
+    
+    // Обновить счётчик сразу
+    updateCountdownDisplay(targetDate);
+    
+    // Обновлять каждую секунду
+    countdownInterval = setInterval(() => {
+        updateCountdownDisplay(targetDate);
+    }, 1000);
+}
+
+function updateCountdownDisplay(targetDate) {
+    const now = new Date();
+    const target = new Date(targetDate);
+    
+    let diff = target - now;
+    
+    if (diff <= 0) {
+        // Праздник уже наступил или наступает
+        document.getElementById('countdownDays').textContent = '0';
+        document.getElementById('countdownHours').textContent = '0';
+        document.getElementById('countdownMinutes').textContent = '0';
+        document.getElementById('countdownSeconds').textContent = '0';
+        return;
+    }
+    
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    diff %= 1000 * 60 * 60 * 24;
+    
+    const hours = Math.floor(diff / (1000 * 60 * 60));
+    diff %= 1000 * 60 * 60;
+    
+    const minutes = Math.floor(diff / (1000 * 60));
+    diff %= 1000 * 60;
+    
+    const seconds = Math.floor(diff / 1000);
+    
+    document.getElementById('countdownDays').textContent = days;
+    document.getElementById('countdownHours').textContent = String(hours).padStart(2, '0');
+    document.getElementById('countdownMinutes').textContent = String(minutes).padStart(2, '0');
+    document.getElementById('countdownSeconds').textContent = String(seconds).padStart(2, '0');
+}
+
+function showBrowserNotification(title, options, holidayId) {
+    if (!('Notification' in window)) {
+        console.log('Этот браузер не поддерживает уведомления.');
+        return;
+    }
+
+    if (Notification.permission === 'granted') {
+        const notification = new Notification(title, options);
+
+        // Добавляем обработчик клика
+        notification.onclick = function(event) {
+            event.preventDefault(); // Предотвращаем стандартное поведение
+            window.focus(); // Фокусируемся на вкладке с приложением
+            showHolidayDetails(holidayId); // Показываем детали праздника
+            this.close(); // Закрываем уведомление после клика
+        };
+    }
+}
+
+function requestAndCheckHolidays() {
+    // Запрашиваем разрешение перед проверкой
+    if ('Notification' in window) {
+        Notification.requestPermission().then(permission => {
+            if (permission === 'granted') {
+                const today = new Date();
+                const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+                const todaysHolidays = holidaysData.filter(h => h.date === todayStr);
+                checkTodaysHolidays(todaysHolidays);
+            }
+        });
+    }
+}
+
+function checkTodaysHolidays(holidays) {
+    holidays.forEach((holiday, index) => {
+        setTimeout(() => {
+            showHolidayNotification(holiday);
+        }, index * 500); // Небольшая задержка между уведомлениями
+    });
+}
+
+function addTestButton() {
+    const container = document.createElement('div');
+    container.style.position = 'fixed';
+    container.style.bottom = '10px';
+    container.style.right = '10px';
+    container.style.zIndex = '1000';
+    container.style.display = 'flex';
+    container.style.flexDirection = 'column';
+    container.style.gap = '5px';
+
+    const testBtn = document.createElement('button');
+    testBtn.textContent = 'Test Sync';
+    testBtn.addEventListener('click', () => {
+        // Direct call for testing
+        fetch('/holidays.json')
+            .then(response => response.json())
+            .then(holidaysData => {
+                const today = new Date();
+                const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+                const todaysHolidays = holidaysData.filter(h => h.date === todayStr);
+                console.log('Today:', todayStr, 'Holidays:', todaysHolidays);
+                if (todaysHolidays.length > 0) {
+                    todaysHolidays.forEach(holiday => {
+                        if (Notification.permission === 'granted') {
+                            const title = `${holiday.emoji} ${holiday.title.ru}`;
+                            const options = {
+                                body: 'Сегодня праздник!',
+                                icon: '/icons/icon-192x192.png',
+                                data: { holidayId: holiday.id }
+                            };
+                            new Notification(title, options);
+                        } else {
+                            console.log('Permission not granted');
+                        }
+                    });
+                }
+            });
+
+        // Also try sync
+        if ('serviceWorker' in navigator && navigator.serviceWorker.ready) {
+            navigator.serviceWorker.ready.then(registration => {
+                if ('sync' in registration) {
+                    registration.sync.register('check-holidays');
+                    console.log('Sync registered');
+                } else {
+                    console.log('Background Sync not supported');
+                }
+            });
+        }
+    });
+
+    const unregisterBtn = document.createElement('button');
+    unregisterBtn.textContent = 'Unregister SW';
+    unregisterBtn.addEventListener('click', () => {
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(registrations => {
+                registrations.forEach(registration => {
+                    registration.unregister();
+                    console.log('Service Worker unregistered');
+                });
+            });
+        }
+    });
+
+    container.appendChild(testBtn);
+    container.appendChild(unregisterBtn);
+    document.body.appendChild(container);
+}
+
+function showHolidayNotification(holiday) {
+    const title = `${holiday.emoji} ${holiday.title[currentLanguage]}`;
+    const options = {
+        body: translations[currentLanguage]['holiday-today'] || 'Сегодня праздник!',
+        icon: './icons/icon-192x192.png', // Путь к иконке
+        data: { // Передаем данные в Service Worker
+            holidayId: holiday.id
+        }
+    };
+
+    // Отправляем уведомление через Service Worker
+    if ('serviceWorker' in navigator && navigator.serviceWorker.ready) {
+        navigator.serviceWorker.ready.then(function(registration) {
+            registration.showNotification(title, options);
+        });
+    }
 }

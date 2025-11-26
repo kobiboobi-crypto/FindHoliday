@@ -1,0 +1,54 @@
+[
+    {
+        "id": 1,
+        "title": {
+            "ru": "Новый Год",
+            "en": "New Year",
+            "de": "Neujahrstag",
+            "fr": "Jour de l'an",
+            "uk": "Новий рік"
+        },
+        "date": "2025-01-01",
+        "emoji": "🎆",
+        "category": "official"
+    },
+    {
+        "id": 36,
+        "title": {
+            "ru": "День благодарения",
+            "en": "Thanksgiving",
+            "de": "Erntedankfest",
+            "fr": "Action de grâces",
+            "uk": "День подяки"
+        },
+        "date": "2025-11-27",
+        "emoji": "🦃",
+        "category": "official"
+    },
+    {
+        "id": 38,
+        "title": {
+            "ru": "Рождество Христово",
+            "en": "Christmas",
+            "de": "Weihnachten",
+            "fr": "Noël",
+            "uk": "Різдво Христове"
+        },
+        "date": "2025-12-25",
+        "emoji": "🎄",
+        "category": "religious"
+    },
+    {
+        "id": 99,
+        "title": {
+            "ru": "Тестовый праздник",
+            "en": "Test Holiday",
+            "de": "Test Feiertag",
+            "fr": "Fête de test",
+            "uk": "Тестове свято"
+        },
+        "date": "2025-11-26",
+        "emoji": "🎉",
+        "category": "fun"
+    }
+]
