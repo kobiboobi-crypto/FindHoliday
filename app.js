@@ -5,10 +5,8 @@ let currentHolidayId = null;
 let selectedEmoji = '🎉';
 let currentCategory = 'all';
 let countdownInterval = null;
-let isEditMode = false;
-let editingHolidayId = null;
-let currentView = 'list'; // 'list' или 'calendar'
-let currentCalendarDate = new Date();
+let isEditMode = false; // true, если открыто модальное окно редактирования
+let editingHolidayId = null; // ID праздника, который редактируется
 
 // ===== ГЕОЛОКАЦИЯ И АВТОМАТИЧЕСКИЙ ВЫБОР ЯЗЫКА =====
 // Маппинг стран на языки
@@ -48,23 +46,6 @@ const emojiBtns = document.querySelectorAll('.emoji-btn');
 const selectedEmojiInput = document.getElementById('selectedEmoji');
 const scrollToTopBtn = document.getElementById('scrollToTopBtn');
 const categoryFiltersContainer = document.getElementById('categoryFilters');
-
-// Календарные элементы
-const listViewBtn = document.getElementById('listViewBtn');
-const calendarViewBtn = document.getElementById('calendarViewBtn');
-const listView = document.getElementById('listView');
-const calendarView = document.getElementById('calendarView');
-const calendarGrid = document.getElementById('calendarGrid');
-const calendarMonthYear = document.getElementById('calendarMonthYear');
-const prevMonthBtn = document.getElementById('prevMonthBtn');
-const nextMonthBtn = document.getElementById('nextMonthBtn');
-const todayBtn = document.getElementById('todayBtn');
-const dateHolidaysModal = document.getElementById('dateHolidaysModal');
-const dateModalOverlay = document.getElementById('dateModalOverlay');
-const dateModalClose = document.getElementById('dateModalClose');
-const dateModalTitle = document.getElementById('dateModalTitle');
-const dateModalDate = document.getElementById('dateModalDate');
-const dateHolidaysList = document.getElementById('dateHolidaysList');
 
 
 // ===== ИНИЦИАЛИЗАЦИЯ =====
@@ -172,7 +153,6 @@ function setupEventListeners() {
         if (e.key === 'Escape') {
             if (!modal.classList.contains('hidden')) closeModal();
             if (!addHolidayModal.classList.contains('hidden')) closeAddHolidayModal();
-            if (!dateHolidaysModal.classList.contains('hidden')) closeDateModal();
         }
     });
 
@@ -200,19 +180,6 @@ function setupEventListeners() {
     });
 
     scrollToTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-
-    // Переключение вида (список/календарь)
-    listViewBtn.addEventListener('click', () => switchView('list'));
-    calendarViewBtn.addEventListener('click', () => switchView('calendar'));
-
-    // Навигация по календарю
-    prevMonthBtn.addEventListener('click', () => changeMonth(-1));
-    nextMonthBtn.addEventListener('click', () => changeMonth(1));
-    todayBtn.addEventListener('click', goToToday);
-
-    // Модальное окно праздников даты
-    dateModalClose.addEventListener('click', closeDateModal);
-    dateModalOverlay.addEventListener('click', closeDateModal);
 }
 
 
@@ -226,9 +193,6 @@ function setLanguage(lang) {
     renderCategoryFilters(); // Перерисовать кнопки категорий с новым языком
     renderHolidays();
     updatePinnedDisplay();
-    if (currentView === 'calendar') {
-        renderCalendar(); // Обновить календарь при смене языка
-    }
 }
 
 function setActiveLanguage(lang) {
@@ -305,9 +269,6 @@ function handleCategoryFilter(category) {
     currentCategory = category;
     searchInput.value = ''; // Сбрасываем поиск при смене категории
     renderHolidays();
-    if (currentView === 'calendar') {
-        renderCalendar(); // Обновить календарь при смене категории
-    }
 }
 
 function renderCategoryFilters() {
@@ -327,9 +288,6 @@ function renderCategoryFilters() {
             document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             renderHolidays();
-            if (currentView === 'calendar') {
-                renderCalendar();
-            }
         });
         categoryFiltersContainer.appendChild(btn);
     });
@@ -482,9 +440,6 @@ function handleAddHoliday(e) {
     } else {
         // Добавляем новый праздник
         addCustomHoliday(name, date, description, selectedEmoji, category);
-        if (currentView === 'calendar') {
-            renderCalendar();
-        }
         showToast('✅ Праздник успешно добавлен!', '🎉');
     }
 
@@ -806,11 +761,6 @@ function handleDeleteHoliday() {
     const customHolidays = holidaysData.filter(h => h.isCustom);
     localStorage.setItem('findholiday_custom_holidays', JSON.stringify(customHolidays));
 
-    // Обновить календарь сразу для мгновенного эффекта
-    if (currentView === 'calendar') {
-        renderCalendar();
-    }
-
     // Закрываем модальное окно и обновляем списки после анимации
     setTimeout(() => {
         closeModal();
@@ -977,341 +927,3 @@ function createPinnedCard(holiday) {
 
     return card;
 }
-
-// ===== ФУНКЦИИ КАЛЕНДАРЯ =====
-
-// Переключение между видами
-function switchView(view) {
-    currentView = view;
-    
-    if (view === 'list') {
-        listView.classList.remove('hidden');
-        calendarView.classList.add('hidden');
-        listViewBtn.classList.add('active');
-        calendarViewBtn.classList.remove('active');
-    } else {
-        listView.classList.add('hidden');
-        calendarView.classList.remove('hidden');
-        listViewBtn.classList.remove('active');
-        calendarViewBtn.classList.add('active');
-        renderCalendar();
-    }
-}
-
-// Изменение месяца
-function changeMonth(delta) {
-    // Анимация перелистывания
-    calendarGrid.style.transform = delta > 0 ? 'rotateY(-90deg)' : 'rotateY(90deg)';
-    calendarGrid.style.opacity = '0.5';
-
-    setTimeout(() => {
-        currentCalendarDate.setMonth(currentCalendarDate.getMonth() + delta);
-        renderCalendar();
-        calendarGrid.style.transform = 'rotateY(0deg)';
-        calendarGrid.style.opacity = '1';
-    }, 150);
-}
-
-// Переход к текущему месяцу
-function goToToday() {
-    currentCalendarDate = new Date();
-    renderCalendar();
-}
-
-// Получение названий месяцев
-function getMonthNames() {
-    const monthNames = {
-        ru: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
-        en: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-        de: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
-        fr: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
-        uk: ['Січень', 'Лютий', 'Березень', 'Квітень', 'Травень', 'Червень', 'Липень', 'Серпень', 'Вересень', 'Жовтень', 'Листопад', 'Грудень']
-    };
-    return monthNames[currentLanguage] || monthNames.en;
-}
-
-// Получение названий дней недели
-function getDayNames() {
-    return ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'].map(day => 
-        translations[currentLanguage][day] || day
-    );
-}
-
-// Рендеринг календаря
-function renderCalendar() {
-    const year = currentCalendarDate.getFullYear();
-    const month = currentCalendarDate.getMonth();
-
-    // Обновить заголовок
-    const monthNames = getMonthNames();
-    calendarMonthYear.textContent = `${monthNames[month]} ${year}`;
-
-    // Очистить сетку
-    calendarGrid.innerHTML = '';
-
-    // Добавить заголовки дней недели
-    const dayNames = getDayNames();
-    dayNames.forEach(day => {
-        const header = document.createElement('div');
-        header.className = 'calendar-day-header';
-        header.textContent = day;
-        calendarGrid.appendChild(header);
-    });
-
-    // Получить первый день месяца
-    const firstDay = new Date(year, month, 1);
-    let dayOfWeek = firstDay.getDay();
-    // Конвертировать воскресенье (0) в 7
-    dayOfWeek = dayOfWeek === 0 ? 7 : dayOfWeek;
-
-    // Получить количество дней в месяце
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-    // Добавить дни текущего месяца
-    for (let day = 1; day <= daysInMonth; day++) {
-        const dayCell = createDayCell(day, month, year, false);
-        calendarGrid.appendChild(dayCell);
-    }
-
-    // Не добавляем дни следующего месяца - календарь показывает только текущий месяц
-}
-
-// Создание ячейки дня
-function createDayCell(day, month, year, isOtherMonth) {
-    const cell = document.createElement('div');
-    cell.className = 'calendar-day';
-
-    if (isOtherMonth) {
-        cell.classList.add('other-month');
-    }
-
-    // Проверить, является ли день сегодняшним
-    const today = new Date();
-    const cellDate = new Date(year, month, day);
-    if (cellDate.toDateString() === today.toDateString()) {
-        cell.classList.add('today');
-    }
-
-    // Получить праздники для этого дня
-    const dateString = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-    const holidaysOnDate = getHolidaysForDate(dateString);
-
-    // Номер дня
-    const dayNumber = document.createElement('div');
-    dayNumber.className = 'calendar-day-number';
-    dayNumber.textContent = day;
-    cell.appendChild(dayNumber);
-
-    // Если есть праздники
-    if (holidaysOnDate.length > 0) {
-        cell.classList.add('has-holidays');
-
-        // Проверить, есть ли праздники, соответствующие текущей категории
-        const hasMatchingHolidays = holidaysOnDate.some(holiday => {
-            const category = holiday.category || (holiday.isCustom ? 'custom' : '');
-            return currentCategory === 'all' || category === currentCategory;
-        });
-
-        // Если нет соответствующих праздников, добавить класс dimmed
-        if (!hasMatchingHolidays) {
-            cell.classList.add('dimmed');
-        }
-
-        // Показать эмодзи первого праздника
-        const emoji = document.createElement('div');
-        emoji.className = 'calendar-day-emoji';
-        emoji.textContent = holidaysOnDate[0].emoji;
-        cell.appendChild(emoji);
-
-        // Если праздников больше одного, показать счетчик
-        if (holidaysOnDate.length > 1) {
-            const count = document.createElement('div');
-            count.className = 'calendar-day-count';
-            count.textContent = holidaysOnDate.length;
-            cell.appendChild(count);
-        }
-
-        // Добавить кнопку избранного для дней с праздниками
-        if (hasMatchingHolidays) {
-            const favoriteBtn = document.createElement('button');
-            favoriteBtn.className = 'calendar-favorite-btn';
-            favoriteBtn.innerHTML = '♡';
-            favoriteBtn.title = translations[currentLanguage]['add-favorite'] || 'Добавить в избранное';
-
-            // Проверить, есть ли хотя бы один праздник в избранном
-            const hasFavorite = holidaysOnDate.some(holiday => favorites.includes(holiday.id));
-            if (hasFavorite) {
-                favoriteBtn.innerHTML = '♥';
-                favoriteBtn.classList.add('active');
-                favoriteBtn.title = translations[currentLanguage]['remove-favorite'] || 'Удалить из избранного';
-            }
-
-            favoriteBtn.addEventListener('click', (e) => {
-                e.stopPropagation(); // Предотвратить открытие модального окна
-
-                // Переключить все праздники этого дня
-                holidaysOnDate.forEach(holiday => {
-                    const isFavorite = favorites.includes(holiday.id);
-                    if (isFavorite) {
-                        favorites = favorites.filter(id => id !== holiday.id);
-                    } else {
-                        favorites.push(holiday.id);
-                    }
-                });
-
-                // Сохранить в localStorage
-                localStorage.setItem('findholiday_favorites', JSON.stringify(favorites));
-
-                // Обновить кнопку
-                const newHasFavorite = holidaysOnDate.some(holiday => favorites.includes(holiday.id));
-                if (newHasFavorite) {
-                    favoriteBtn.innerHTML = '♥';
-                    favoriteBtn.classList.add('active');
-                    favoriteBtn.title = translations[currentLanguage]['remove-favorite'] || 'Удалить из избранного';
-                } else {
-                    favoriteBtn.innerHTML = '♡';
-                    favoriteBtn.classList.remove('active');
-                    favoriteBtn.title = translations[currentLanguage]['add-favorite'] || 'Добавить в избранное';
-                }
-
-                // Обновить секцию избранного
-                updatePinnedDisplay();
-            });
-
-            cell.appendChild(favoriteBtn);
-        }
-
-        // Клик только если есть соответствующие праздники
-        if (hasMatchingHolidays) {
-            // Фильтровать праздники по категории для модального окна
-            const matchingHolidays = holidaysOnDate.filter(holiday => {
-                const category = holiday.category || (holiday.isCustom ? 'custom' : '');
-                return currentCategory === 'all' || category === currentCategory;
-            });
-
-            cell.addEventListener('click', () => {
-                showDateHolidays(dateString, matchingHolidays);
-            });
-        }
-    }
-
-    return cell;
-}
-
-// Получить праздники для конкретной даты
-function getHolidaysForDate(dateString) {
-    return holidaysData.filter(holiday => {
-        const holidayDate = new Date(holiday.date);
-        const checkDate = new Date(dateString);
-        if (holiday.isCustom) {
-            // Для пользовательских праздников проверяем точную дату
-            return holidayDate.getFullYear() === checkDate.getFullYear() &&
-                   holidayDate.getMonth() === checkDate.getMonth() &&
-                   holidayDate.getDate() === checkDate.getDate();
-        } else {
-            // Для официальных праздников проверяем только месяц и день
-            return holidayDate.getMonth() === checkDate.getMonth() &&
-                   holidayDate.getDate() === checkDate.getDate();
-        }
-    });
-}
-
-// Показать модальное окно с праздниками для выбранной даты
-function showDateHolidays(dateString, holidays) {
-    const date = new Date(dateString);
-    const formattedDate = formatDateForDisplay(dateString);
-    
-    // Обновить заголовок
-    dateModalTitle.textContent = translations[currentLanguage]['holidays-on-date'] || 'Праздники';
-    dateModalDate.textContent = formattedDate;
-    
-    // Очистить список
-    dateHolidaysList.innerHTML = '';
-    
-    if (holidays.length === 0) {
-        dateHolidaysList.innerHTML = `<p style="text-align: center; color: var(--text-secondary); padding: 2rem;">${translations[currentLanguage]['no-holidays-on-date'] || 'Нет праздников в этот день'}</p>`;
-    } else {
-        holidays.forEach(holiday => {
-            const item = createDateHolidayItem(holiday);
-            dateHolidaysList.appendChild(item);
-        });
-    }
-    
-    // Показать модальное окно
-    dateHolidaysModal.classList.remove('hidden');
-    document.body.classList.add('no-scroll');
-}
-
-// Создать элемент праздника для модального окна даты
-function createDateHolidayItem(holiday) {
-    const item = document.createElement('div');
-    item.className = 'date-holiday-item';
-    
-    const title = holiday.title[currentLanguage];
-    const description = holiday.description[currentLanguage];
-    const category = holiday.category || 'fun';
-    const categoryName = translations[currentLanguage][`category-${category}`] || category;
-    
-    // Вычислить обратный отсчет
-    const countdown = calculateCountdown(holiday.date);
-    let countdownText = '';
-    if (countdown.isPast) {
-        countdownText = translations[currentLanguage]['holiday-passed'] || 'Прошёл';
-    } else if (countdown.isToday) {
-        countdownText = translations[currentLanguage]['holiday-today'] || 'Сегодня!';
-    } else {
-        countdownText = `${countdown.days} ${translations[currentLanguage]['days']} ${countdown.hours} ${translations[currentLanguage]['hours']}`;
-    }
-    
-    item.innerHTML = `
-        <div class="date-holiday-header">
-            <div class="date-holiday-emoji">${holiday.emoji}</div>
-            <div class="date-holiday-info">
-                <div class="date-holiday-title">${title}</div>
-                <span class="date-holiday-category">${categoryName}</span>
-            </div>
-        </div>
-        <div class="date-holiday-description">${description}</div>
-        <div class="date-holiday-countdown">${countdownText}</div>
-    `;
-    
-    // Клик открывает полную информацию о празднике
-    item.addEventListener('click', () => {
-        closeDateModal();
-        showHolidayDetails(holiday.id);
-    });
-    
-    return item;
-}
-
-// Закрыть модальное окно праздников даты
-function closeDateModal() {
-    dateHolidaysModal.classList.add('hidden');
-    document.body.classList.remove('no-scroll');
-}
-
-// Вычислить обратный отсчет
-function calculateCountdown(dateString) {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    
-    const targetDate = new Date(dateString);
-    targetDate.setHours(0, 0, 0, 0);
-    
-    // Если дата в этом году уже прошла, берем следующий год
-    if (targetDate < today) {
-        targetDate.setFullYear(today.getFullYear() + 1);
-    } else if (targetDate.getFullYear() < today.getFullYear()) {
-        targetDate.setFullYear(today.getFullYear());
-    }
-    
-    const diff = targetDate - today;
-    const isPast = diff < 0;
-    const isToday = diff === 0;
-    
-    const days = Math.floor(Math.abs(diff) / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((Math.abs(diff) % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    
-    return { isPast, isToday, days, hours };
-}
-

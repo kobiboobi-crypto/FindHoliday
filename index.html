@@ -5,6 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FindHoliday - Найди Праздник</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Стили для кнопки "В избранное" */
+        .modal-footer .favorite-btn {
+            background: var(--bg-tertiary);
+            color: var(--text-secondary);
+            border: 2px solid var(--border-color);
+            box-shadow: none;
+            transition: all 0.3s ease; /* Плавный переход для всех свойств */
+        }
+
+        /* Состояние при наведении */
+        .modal-footer .favorite-btn:hover {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+            background: var(--bg-main);
+            transform: scale(1.02); /* Небольшое увеличение */
+        }
+
+        /* Активное состояние (когда праздник в избранном) */
+        .modal-footer .favorite-btn.active {
+            /* Красивый градиент от розового к оранжевому */
+            background: linear-gradient(135deg, #ff8a80 0%, #ff6d6d 100%);
+            color: #fff;
+            border-color: transparent;
+            box-shadow: 0 4px 15px rgba(255, 109, 109, 0.4);
+        }
+
+        .modal-footer .favorite-btn.active .heart-icon {
+            color: #fff;
+        }
+
+        /* Состояние при наведении на активную кнопку */
+        .modal-footer .favorite-btn.active:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 109, 109, 0.5);
+        }
+    </style>
 </head>
 <body>
     <!-- Header с навигацией и переключателем языка -->
@@ -61,16 +98,6 @@
                     <div id="categoryFilters" class="category-filters">
                         <!-- Кнопки категорий будут добавлены здесь -->
                     </div>
-                    <div class="view-switcher">
-                        <button id="listViewBtn" class="view-btn active" title="Список">
-                            <span class="view-icon">📋</span>
-                            <span class="view-text" data-translate="view-list">Список</span>
-                        </button>
-                        <button id="calendarViewBtn" class="view-btn" title="Календарь">
-                            <span class="view-icon">📅</span>
-                            <span class="view-text" data-translate="view-calendar">Календарь</span>
-                        </button>
-                    </div>
                 </div>
             </div>
             <!-- Секция закреплённых праздников (Избранное) -->
@@ -81,23 +108,8 @@
                 </div>
             </div>
 
-            <!-- Календарный вид -->
-            <div id="calendarView" class="calendar-view hidden">
-                <div class="calendar-header">
-                    <button id="prevMonthBtn" class="calendar-nav-btn">‹</button>
-                    <div class="calendar-title">
-                        <h2 id="calendarMonthYear">Январь 2026</h2>
-                        <button id="todayBtn" class="today-btn" data-translate="today">Сегодня</button>
-                    </div>
-                    <button id="nextMonthBtn" class="calendar-nav-btn">›</button>
-                </div>
-                <div class="calendar-grid" id="calendarGrid">
-                    <!-- Календарная сетка будет добавлена здесь -->
-                </div>
-            </div>
-
             <!-- Основной список праздников -->
-            <div id="listView" class="holidays-section">
+            <div class="holidays-section">
                 <div id="holidaysList" class="holidays-list">
                     <!-- Карточки праздников будут добавлены здесь -->
                 </div>
@@ -244,26 +256,6 @@
                         <button type="button" class="btn-cancel" id="cancelHolidayBtn" data-translate="cancel">Отмена</button>
                     </div>
                 </form>
-            </div>
-        </div>
-    </div>
-
-
-    <!-- Модальное окно для праздников выбранной даты -->
-    <div id="dateHolidaysModal" class="modal hidden">
-        <div class="modal-overlay" id="dateModalOverlay"></div>
-        <div class="modal-content date-modal-content">
-            <button class="modal-close" id="dateModalClose">&times;</button>
-            
-            <div class="modal-header">
-                <h2 id="dateModalTitle" class="modal-title">Праздники</h2>
-                <p id="dateModalDate" class="modal-date">Дата</p>
-            </div>
-            
-            <div class="modal-body">
-                <div id="dateHolidaysList" class="date-holidays-list">
-                    <!-- Список праздников для выбранной даты -->
-                </div>
             </div>
         </div>
     </div>
